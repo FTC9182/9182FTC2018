@@ -37,8 +37,7 @@ public class testingdrive extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        telemetry.addData("Status", "Initialized");
-        telemetry.update();
+        telemetry.addData("Status", "Initialized");telemetry.update();
 
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
@@ -50,10 +49,10 @@ public class testingdrive extends LinearOpMode {
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
-        FrontLeft.setDirection(DcMotor.Direction.FORWARD);
-        FrontRight.setDirection(DcMotor.Direction.REVERSE);
-        BackLeft.setDirection(DcMotor.Direction.FORWARD);
-        BackRight.setDirection(DcMotor.Direction.REVERSE);
+        FrontLeft.setDirection(DcMotor.Direction.REVERSE);
+        FrontRight.setDirection(DcMotor.Direction.FORWARD);
+        BackLeft.setDirection(DcMotor.Direction.REVERSE);
+        BackRight.setDirection(DcMotor.Direction.FORWARD);
 
 
         // Wait for the game to start (driver presses PLAY)
@@ -86,39 +85,41 @@ public class testingdrive extends LinearOpMode {
             // Tank Mode uses one stick to control each wheel.
             // - This requires no math, but it is hard to drive forward slowly and keep straight.
 
+//tankdrive
+            //frontleftPower  = gamepad1.left_stick_y ;
+            //frontrightPower = gamepad1.right_stick_y ;
+            //backleftPower  = -gamepad1.left_stick_y ;
+            //backrightPower = -gamepad1.right_stick_y ;
 
-            frontleftPower  = gamepad1.left_stick_y ;
-            frontrightPower = gamepad1.right_stick_y ;
-            backleftPower  = -gamepad1.left_stick_y ;
-            backrightPower = -gamepad1.right_stick_y ;
-
-            if( this.gamepad1.a){
-                this.BackLeft.setPower(-1.0);
-                this.BackRight.setPower(1.0);
-                this.FrontLeft.setPower(-1.0);
-                this.FrontRight.setPower(1.0);
-            }
-            if ( this.gamepad1.b){
-                this.BackLeft.setPower(1.0);
-                this.BackRight.setPower(-1.0);
-                this.FrontLeft.setPower(1.0);
-                this.FrontRight.setPower(-1.0);
-            }
-
-
+//            if( this.gamepad1.a){
+//                this.BackLeft.setPower(-1.0);
+//                this.BackRight.setPower(1.0);
+//                this.FrontLeft.setPower(-1.0);
+//                this.FrontRight.setPower(1.0);
+//            }
+//            if ( this.gamepad1.b){
+//                this.BackLeft.setPower(1.0);
+//                this.BackRight.setPower(-1.0);
+//                this.FrontLeft.setPower(1.0);
+//                this.FrontRight.setPower(-1.0);
+//            }
 
 
-            //Mechanum Stuff
-//            frontleftPower = gamepad1.right_stick_y-gamepad1.right_stick_x;
-//            frontrightPower= gamepad1.right_stick_y+gamepad1.right_stick_x;
-//            backleftPower = gamepad1.right_stick_y+gamepad1.right_stick_x;
-//            backrightPower=gamepad1.right_stick_y-gamepad1.right_stick_x;
+
+
+            //Mecanum Stuff
+
+            frontrightPower= ((-gamepad1.right_stick_y)+gamepad1.right_stick_x);
+            frontleftPower = ((-gamepad1.right_stick_y)-gamepad1.right_stick_x);
+            backrightPower=  ((-gamepad1.right_stick_y)-gamepad1.right_stick_x);
+            backleftPower =  ((-gamepad1.right_stick_y)+gamepad1.right_stick_x);
+
 
             // Send calculated power to wheels
             FrontLeft.setPower(frontleftPower);
             FrontRight.setPower(frontrightPower);
-            BackLeft.setPower(frontleftPower);
-            BackRight.setPower(frontrightPower);
+            BackLeft.setPower(backleftPower);
+            BackRight.setPower(backrightPower);
 
 
             // Show the elapsed game time and wheel power.

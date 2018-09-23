@@ -36,10 +36,10 @@ public class DriveTrain {
 
 
 
-        frontleftPower  = gamepad1.left_stick_y ;
-        frontrightPower = gamepad1.right_stick_y ;
-        backleftPower  = -gamepad1.left_stick_y ;
-        backrightPower = -gamepad1.right_stick_y ;
+//        frontleftPower  = gamepad1.left_stick_y ;
+//        frontrightPower = gamepad1.right_stick_y ;
+//        backleftPower  = -gamepad1.left_stick_y ;
+//        backrightPower = -gamepad1.right_stick_y ;
 
     }
 }
