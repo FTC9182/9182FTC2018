@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Library;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -51,8 +52,8 @@ public class testingdrive extends LinearOpMode {
         // Reverse the motor that runs backwards when connected directly to the battery
         FrontLeft.setDirection(DcMotor.Direction.FORWARD);
         FrontRight.setDirection(DcMotor.Direction.REVERSE);
-        BackLeft.setDirection(DcMotor.Direction.REVERSE);
-        BackRight.setDirection(DcMotor.Direction.FORWARD);
+        BackLeft.setDirection(DcMotor.Direction.FORWARD);
+        BackRight.setDirection(DcMotor.Direction.REVERSE);
 
 
         // Wait for the game to start (driver presses PLAY)
@@ -68,13 +69,15 @@ public class testingdrive extends LinearOpMode {
             double backleftPower;
             double backrightPower;
 
+
+
             // Choose to drive using either Tank Mode, or POV Mode
             // Comment out the method that's not used.  The default below is POV.
 
             // POV Mode uses left stick to go forward, and right stick to turn.
             // - This uses basic math to combine motions and is easier to drive straight.
-            double drive = -gamepad1.left_stick_y;
-            double turn  =  gamepad1.right_stick_x;
+            //double drive = -gamepad1.left_stick_y;
+            //double turn  =  gamepad1.right_stick_x;
             //frontleftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
             //frontrightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
             //backleftPower    = Range.clip(drive - turn, -1.0, 1.0) ;
@@ -82,10 +85,27 @@ public class testingdrive extends LinearOpMode {
 
             // Tank Mode uses one stick to control each wheel.
             // - This requires no math, but it is hard to drive forward slowly and keep straight.
-            frontleftPower  = -gamepad1.left_stick_y ;
-            frontrightPower = -gamepad1.right_stick_y ;
+
+
+            frontleftPower  = gamepad1.left_stick_y ;
+            frontrightPower = gamepad1.right_stick_y ;
             backleftPower  = -gamepad1.left_stick_y ;
             backrightPower = -gamepad1.right_stick_y ;
+
+            if( this.gamepad1.a){
+                this.BackLeft.setPower(-1.0);
+                this.BackRight.setPower(1.0);
+                this.FrontLeft.setPower(-1.0);
+                this.FrontRight.setPower(1.0);
+            }
+            if ( this.gamepad1.b){
+                this.BackLeft.setPower(1.0);
+                this.BackRight.setPower(-1.0);
+                this.FrontLeft.setPower(1.0);
+                this.FrontRight.setPower(-1.0);
+            }
+
+
 
 
             //Mechanum Stuff

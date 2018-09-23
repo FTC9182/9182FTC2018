@@ -8,12 +8,38 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  */
 
 public class DriveTrain {
-    private DcMotor leftMotor = null;  // set null if no value to prevent unpredictability
-    private DcMotor RightMotor = null;  // set null if no value to prevent unpredictability
+    private DcMotor FrontLeft = null;
+    private DcMotor FrontRight = null;
+    private DcMotor BackLeft = null;
+    private DcMotor BackRight = null;
 
     public DriveTrain(HardwareMap hardwareMap) {    // constructor to create object
-        leftMotor = hardwareMap.dcMotor.get("chassis_left_motor");  // the name assigned on the phone
-        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //also works when encoder is not used
-        leftMotor.setDirection(DcMotor.Direction.REVERSE);
+        FrontLeft  = hardwareMap.get(DcMotor.class, "FrontLeft_drive");
+        FrontRight = hardwareMap.get(DcMotor.class, "FrontRight_drive");
+        BackLeft  = hardwareMap.get(DcMotor.class, "BackLeft_drive");
+        BackRight = hardwareMap.get(DcMotor.class, "BackRight_drive");
+
+        // Most robots need the motor on one side to be reversed to drive forward
+        // Reverse the motor that runs backwards when connected directly to the battery
+
+        FrontLeft.setDirection(DcMotor.Direction.FORWARD);
+        FrontRight.setDirection(DcMotor.Direction.REVERSE);
+        BackLeft.setDirection(DcMotor.Direction.FORWARD);
+        BackRight.setDirection(DcMotor.Direction.REVERSE);
+    }
+    public void Drive(){
+
+        double frontleftPower;
+        double frontrightPower;
+        double backleftPower;
+        double backrightPower;
+
+
+
+        frontleftPower  = gamepad1.left_stick_y ;
+        frontrightPower = gamepad1.right_stick_y ;
+        backleftPower  = -gamepad1.left_stick_y ;
+        backrightPower = -gamepad1.right_stick_y ;
+
     }
 }
