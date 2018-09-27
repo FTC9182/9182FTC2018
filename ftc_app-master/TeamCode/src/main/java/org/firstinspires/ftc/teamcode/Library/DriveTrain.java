@@ -27,7 +27,7 @@ public class DriveTrain {
         BackLeft.setDirection(DcMotor.Direction.FORWARD);
         BackRight.setDirection(DcMotor.Direction.REVERSE);
     }
-    public void Drive(){
+    public void MecanumDrive(double y,double x, double r){
 
         double frontleftPower;
         double frontrightPower;
@@ -35,11 +35,20 @@ public class DriveTrain {
         double backrightPower;
 
 
+        frontrightPower= (y+x-r);
+        frontleftPower = (y - x + r);
+        backrightPower=  (y-x-r);
+        backleftPower =  (y+x+r);
 
-//        frontleftPower  = gamepad1.left_stick_y ;
-//        frontrightPower = gamepad1.right_stick_y ;
-//        backleftPower  = -gamepad1.left_stick_y ;
-//        backrightPower = -gamepad1.right_stick_y ;
+
+        FrontLeft.setPower(frontrightPower);
+        FrontRight.setPower(frontleftPower);
+        BackLeft.setPower(backrightPower);
+        BackRight.setPower(backleftPower);
+
+        //If this doesn't work it is 100% John's fault for taking Mohamed's hot cheetos
+
 
     }
 }
+
