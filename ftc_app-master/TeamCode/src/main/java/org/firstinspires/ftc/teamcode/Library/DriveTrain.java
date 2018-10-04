@@ -41,10 +41,10 @@ public class DriveTrain {
         double backrightPower;
 
 
-        frontrightPower = (y + x);
-        frontleftPower = (y - x);
-        backrightPower = (y - x);
-        backleftPower = (y + x);
+        //frontrightPower = (y + x);
+        //frontleftPower = (y - x);
+        //backrightPower = (y - x);
+        //ckleftPower = (y + x);
 
 
         //Calculates the direction based off of the joysticks
@@ -55,6 +55,10 @@ public class DriveTrain {
 
         double nValue = Math.max(Math.max(Math.max((Math.abs(frontrightPower)),(Math.abs(frontleftPower))),Math.abs(backrightPower)),Math.abs(backleftPower));
         //normalizes the power to account for the rotation^
+        if(nValue<1) {
+            nValue=1;
+
+        }
 
         FrontLeft.setPower(frontrightPower/nValue);
         FrontRight.setPower(frontleftPower/nValue);

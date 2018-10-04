@@ -62,7 +62,7 @@ public class testingdrive extends LinearOpMode {
 
 
             //Mecanum Stuff
-            if((gamepad1.right_trigger+gamepad1.left_trigger)>1.5){
+            if((gamepad1.right_trigger+gamepad1.left_trigger)>1){
                 //Ultimate
             }
             else{
