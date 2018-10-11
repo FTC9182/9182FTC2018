@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Library.DriveTrain;
+import org.firstinspires.ftc.teamcode.Library.Rev_IMU;
+import org.firstinspires.ftc.teamcode.Library.liftUp;
 
 
 /**
@@ -21,19 +23,17 @@ import org.firstinspires.ftc.teamcode.Library.DriveTrain;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name = "MOHAMED'SFIRSTOPMODE", group = "Linear Opmode")
+@TeleOp(name = "Mechanum_Drive", group = "Linear Opmode")
 
 
 public class testingdrive extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor FrontLeft = null;
-    private DcMotor FrontRight = null;
-    private DcMotor BackLeft = null;
-    private DcMotor BackRight = null;
     private DriveTrain newDrive = null;
     private double r;
+    private liftUp lift = null;
+    private Rev_IMU;
 
     @Override
     public void runOpMode() {
@@ -41,6 +41,8 @@ public class testingdrive extends LinearOpMode {
         telemetry.update();
 
         newDrive = new DriveTrain(hardwareMap);
+        lift = new liftUp(hardwareMap);
+        Rev_IMU gps = new Rev_IMU(hardwareMap);
 
 
         // Wait for the game to start (driver presses PLAY)
@@ -51,14 +53,9 @@ public class testingdrive extends LinearOpMode {
         while (opModeIsActive()) {
 
 
-            // Tank Mode uses one stick to control each wheel.
-            // - This requires no math, but it is hard to drive forward slowly and keep straight.
 
-// regular tankdrive
-//            frontleftPower  = gamepad1.left_stick_y ;
-//            frontrightPower = gamepad1.right_stick_y ;
-//            backleftPower  =  gamepad1.left_stick_y ;
-//            backrightPower =  gamepad1.right_stick_y ;
+            gps.initialize();
+
 
 
             //Mecanum Stuff
@@ -71,6 +68,9 @@ public class testingdrive extends LinearOpMode {
 
 
             newDrive.MecanumDrive((-gamepad1.right_stick_y), gamepad1.right_stick_x,r );
+            lift.lift(-gamepad2.left_stick_y);
+            lift.lock(gamepad2.a);
+            lift.unlock(gamepad2.b);
 
 
             // Show the elapsed game time and wheel power.

@@ -6,15 +6,18 @@ package org.firstinspires.ftc.teamcode.TestingCode;
 
         import org.firstinspires.ftc.teamcode.Library.PracticeAuton;
 
-@Autonomous(name = "Blue Alliance Left Side", group = "Competition")
+@Autonomous(name = "Practice", group = "Competition")
 
 public class practiceAutonomous extends PracticeAuton {
     @Override
 
     protected void Autonomous_Mode() { // using Autonomous_Codes
 
-        forward(1,.5); // use Autonomous_Codes here
-        // deposit glyph on the right
+        forward(4,1,1000); // use Autonomous_Codes here
+
+        forward(4,-1,1000);
+        turnRight(1.25,0);
+
 
     }
 }

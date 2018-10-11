@@ -9,6 +9,8 @@ public abstract class PracticeAuton extends LinearOpMode { // sequence run by au
     // --------------- Declaration to be edited -------------------------
     DriveTrain drive = null;
     ElapsedTime autonomous_elapsetime = new ElapsedTime();
+    Rev_IMU imu = null;
+    liftUp lift = null;
     // ------------------------------------------------------------------
 
     @Override
@@ -18,6 +20,8 @@ public abstract class PracticeAuton extends LinearOpMode { // sequence run by au
 
         // ------- create objects to be edited ------------------
         drive = new DriveTrain(hardwareMap);
+        lift = new liftUp(hardwareMap);
+        imu= new Rev_IMU(hardwareMap);
         //
         // ------------------------------------------------------
 
@@ -41,7 +45,7 @@ public abstract class PracticeAuton extends LinearOpMode { // sequence run by au
 
     // ========================All autonomous codes below to be edited =========================
 
-    public void forward(double timer_sec, double power) {
+    public void forward(long timer_sec, double power,long pause) {
 
         drive.MecanumDrive(power,0,0);
 
@@ -51,11 +55,30 @@ public abstract class PracticeAuton extends LinearOpMode { // sequence run by au
             idle();
         }
         drive.MecanumDrive(0,0,0); // zero power to stop
+        sleep(pause);
     }
 
     private void landing() {
 
+
+        lift.setEncoder(true);
+        imu.initialize();
+        //after unlatching
+
+        imu.start();
+
     }
+    public void turnRight(double timer_sec, double power,double turnAngle){
+        drive.MecanumDrive(power,0,1);
+
+        autonomous_elapsetime.reset();
+        while(autonomous_elapsetime.seconds() < timer_sec && opModeIsActive()) { // until it passes 5 seconds
+            sleep(1);
+            idle();
+        }
+        drive.MecanumDrive(0,0,0); // zero power to stop
+    }
+
 
     public void sampling(boolean isLeft){
 

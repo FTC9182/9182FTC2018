@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Library;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
@@ -13,11 +14,15 @@ public class DriveTrain {
     private DcMotor BackLeft = null;
     private DcMotor BackRight = null;
 
+
+
     public DriveTrain(HardwareMap hardwareMap) {    // constructor to create object
         FrontLeft = hardwareMap.get(DcMotor.class, "FrontLeft_drive");
         FrontRight = hardwareMap.get(DcMotor.class, "FrontRight_drive");
         BackLeft = hardwareMap.get(DcMotor.class, "BackLeft_drive");
         BackRight = hardwareMap.get(DcMotor.class, "BackRight_drive");
+
+
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -27,10 +32,14 @@ public class DriveTrain {
         BackLeft.setDirection(DcMotor.Direction.FORWARD);
         BackRight.setDirection(DcMotor.Direction.REVERSE);
 
+
+
         FrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         FrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         BackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         BackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
     }
 
     public void MecanumDrive(double y, double x, double r) {
@@ -57,7 +66,6 @@ public class DriveTrain {
         //normalizes the power to account for the rotation^
         if(nValue<1) {
             nValue=1;
-
         }
 
         FrontLeft.setPower(frontrightPower/nValue);
@@ -69,13 +77,23 @@ public class DriveTrain {
 
 
     }
-    public void liftUp(){
+     public void TankDrive(double right_y, double left_y){
 
+         double frontleftPower;
+         double frontrightPower;
+         double backleftPower;
+         double backrightPower;
 
-    }
-    public void intake(){
+         frontleftPower  = left_y;
+            frontrightPower = right_y ;
+            backleftPower  =  left_y ;
+            backrightPower =  right_y ;
 
+         FrontLeft.setPower(frontrightPower);
+         FrontRight.setPower(frontleftPower);
+         BackLeft.setPower(backrightPower);
+         BackRight.setPower(backleftPower);
+     }
 
-    }
 }
 
