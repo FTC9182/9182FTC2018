@@ -9,7 +9,7 @@ public abstract class PracticeAuton extends LinearOpMode { // sequence run by au
     // --------------- Declaration to be edited -------------------------
     DriveTrain drive = null;
     ElapsedTime autonomous_elapsetime = new ElapsedTime();
-    Rev_IMU imu = null;
+    //Rev_IMU imu = null;
     liftUp lift = null;
     // ------------------------------------------------------------------
 
@@ -21,12 +21,12 @@ public abstract class PracticeAuton extends LinearOpMode { // sequence run by au
         // ------- create objects to be edited ------------------
         drive = new DriveTrain(hardwareMap);
         lift = new liftUp(hardwareMap);
-        imu= new Rev_IMU(hardwareMap);
+        //imu= new Rev_IMU(hardwareMap);
         //
         // ------------------------------------------------------
-
+        latching();
         waitForStart();    // wait until the Start button is pressed
-        landing();
+
 
         // Add sequence common to all autonomous at the beginning here, Jewel for example
         // doing jewel
@@ -61,11 +61,14 @@ public abstract class PracticeAuton extends LinearOpMode { // sequence run by au
     private void landing() {
 
 
-        lift.setEncoder(true);
-        imu.initialize();
+       lift.unlock(true);
+
+
+
+        //imu.initialize();
         //after unlatching
 
-        imu.start();
+        //imu.start();
 
     }
     public void turnRight(double timer_sec, double power,double turnAngle){
@@ -85,6 +88,19 @@ public abstract class PracticeAuton extends LinearOpMode { // sequence run by au
 
     }
     public void marker(boolean isLeft){
-
+        lift.drop_Marker(true);
+    }
+    private void latching (){
+        lift.setEncoder(true);
+        lift.lock(true);
+    }
+    public void moveMotor(double power, double seconds){
+        lift.lift(power);
+        autonomous_elapsetime.reset();
+        while(autonomous_elapsetime.seconds() < seconds && opModeIsActive()) { // until it passes 5 seconds
+            lift.unlock(true);
+            sleep(1);
+            idle();
+        }
     }
 }

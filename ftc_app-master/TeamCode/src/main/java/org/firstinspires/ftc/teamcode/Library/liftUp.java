@@ -42,13 +42,18 @@ public class liftUp {
 
         }
     }
-    public void lock(boolean close){
-        if( close) {
+    public void lock(boolean close) {
+        if (close) {
             lock.setPosition(locked);
         }
-        else{
-            lock.setPosition(unlock);
-        }
+    }
+        public void unlock(boolean open){
+          if(open) {
+              lock.setPosition(unlock);
+
+    }
+
+
 
     }
       public void drop_Marker(boolean drop){
