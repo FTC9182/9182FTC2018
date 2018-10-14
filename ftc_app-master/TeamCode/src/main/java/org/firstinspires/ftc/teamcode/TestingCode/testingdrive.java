@@ -33,7 +33,7 @@ public class testingdrive extends LinearOpMode {
     private DriveTrain newDrive = null;
     private double r;
     private liftUp lift = null;
-    private Rev_IMU;
+    //private Rev_IMU;
 
     @Override
     public void runOpMode() {
@@ -42,7 +42,7 @@ public class testingdrive extends LinearOpMode {
 
         newDrive = new DriveTrain(hardwareMap);
         lift = new liftUp(hardwareMap);
-        Rev_IMU gps = new Rev_IMU(hardwareMap);
+        //Rev_IMU gps = new Rev_IMU(hardwareMap);
 
 
         // Wait for the game to start (driver presses PLAY)
@@ -54,7 +54,7 @@ public class testingdrive extends LinearOpMode {
 
 
 
-            gps.initialize();
+            //gps.initialize();
 
 
 
@@ -70,7 +70,7 @@ public class testingdrive extends LinearOpMode {
             newDrive.MecanumDrive((-gamepad1.right_stick_y), gamepad1.right_stick_x,r );
             lift.lift(-gamepad2.left_stick_y);
             lift.lock(gamepad2.a);
-            lift.unlock(gamepad2.b);
+
 
 
             // Show the elapsed game time and wheel power.
