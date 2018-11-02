@@ -11,6 +11,7 @@ public abstract class PracticeAuton extends LinearOpMode { // sequence run by au
     ElapsedTime autonomous_elapsetime = new ElapsedTime();
     //Rev_IMU imu = null;
     liftUp lift = null;
+    PixyCam_Analog PixySampler= null;
     // ------------------------------------------------------------------
 
     @Override
@@ -22,6 +23,7 @@ public abstract class PracticeAuton extends LinearOpMode { // sequence run by au
         drive = new DriveTrain(hardwareMap);
         lift = new liftUp(hardwareMap);
         //imu= new Rev_IMU(hardwareMap);
+        PixySampler= new PixyCam_Analog(hardwareMap);
         //
         // ------------------------------------------------------
         latching();
@@ -40,14 +42,11 @@ public abstract class PracticeAuton extends LinearOpMode { // sequence run by au
         }
     }
 
-
-
-
     // ========================All autonomous codes below to be edited =========================
 
     public void forward(long timer_sec, double power,long pause) {
 
-        drive.MecanumDrive(power,0,0);
+        drive.MecanumDrive(-power,0,0);
 
         autonomous_elapsetime.reset();
         while(autonomous_elapsetime.seconds() < timer_sec && opModeIsActive()) { // until it passes 5 seconds
@@ -58,8 +57,14 @@ public abstract class PracticeAuton extends LinearOpMode { // sequence run by au
         sleep(pause);
     }
 
-    private void landing() {
+    public void landing(double timer_sec) {
 
+lift.lift(-.2);
+        autonomous_elapsetime.reset();
+        while(autonomous_elapsetime.seconds() < timer_sec && opModeIsActive()) { // until it passes 5 seconds
+            sleep(1);
+            idle();
+        }
 
        lift.unlock(true);
 
@@ -72,7 +77,7 @@ public abstract class PracticeAuton extends LinearOpMode { // sequence run by au
 
     }
     public void turnRight(double timer_sec, double power,double turnAngle){
-        drive.MecanumDrive(power,0,1);
+        drive.MecanumDrive(-power,0,1);
 
         autonomous_elapsetime.reset();
         while(autonomous_elapsetime.seconds() < timer_sec && opModeIsActive()) { // until it passes 5 seconds
@@ -83,7 +88,25 @@ public abstract class PracticeAuton extends LinearOpMode { // sequence run by au
     }
 
 
-    public void sampling(boolean isLeft){
+    public void sampling(long timer_sec){
+        autonomous_elapsetime.reset();
+        while(autonomous_elapsetime.seconds() < timer_sec && opModeIsActive()) { // until it passes 5 seconds
+drive.MecanumDrive(-.2,0,.5);
+
+            if( PixySampler.isObjectDetected()){
+
+                double direction = PixySampler.getAnalogRead()-1.15;
+                drive.MecanumDrive(-.2,0,direction*.5);
+
+            }
+            else{
+                drive.MecanumDrive(0,0,0);
+            }
+            sleep(1);
+            idle();
+        }
+        drive.MecanumDrive(-.2,0,-.5);
+        drive.MecanumDrive(0,0,0);
 
 
     }

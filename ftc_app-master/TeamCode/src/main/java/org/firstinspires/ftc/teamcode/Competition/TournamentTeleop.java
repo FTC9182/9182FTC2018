@@ -1,17 +1,15 @@
-package org.firstinspires.ftc.teamcode.TestingCode;
+package org.firstinspires.ftc.teamcode.Competition;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
+
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Library.DriveTrain;
-import org.firstinspires.ftc.teamcode.Library.PixyCam_Analog;
 import org.firstinspires.ftc.teamcode.Library.Rev_IMU;
 import org.firstinspires.ftc.teamcode.Library.liftUp;
 
-import com.qualcomm.robotcore.hardware.I2cAddr;
-import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
+
 
 /**
  * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
@@ -26,10 +24,10 @@ import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name = "Mechanum_Drive", group = "Linear Opmode")
+@TeleOp(name = "TournamentTelop", group = "Tournament")
 
 
-public class testingdrive extends LinearOpMode {
+public class TournamentTeleop extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -37,8 +35,6 @@ public class testingdrive extends LinearOpMode {
     private double r;
     private liftUp lift = null;
     //private Rev_IMU;
-    PixyCam_Analog pixyAnalogue=null;
-
 
 
     @Override
@@ -50,7 +46,6 @@ public class testingdrive extends LinearOpMode {
         newDrive = new DriveTrain(hardwareMap);
         lift = new liftUp(hardwareMap);
         //Rev_IMU gps = new Rev_IMU(hardwareMap);
-        pixyAnalogue= new PixyCam_Analog(hardwareMap);
 
 
         // Wait for the game to start (driver presses PLAY)
@@ -60,9 +55,7 @@ public class testingdrive extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-
             //gps.initialize();
-
 
             //Mecanum Stuff
             if ((gamepad1.right_trigger + gamepad1.left_trigger) > 1) {
@@ -73,7 +66,6 @@ public class testingdrive extends LinearOpMode {
 
 
             newDrive.MecanumDrive((-gamepad1.right_stick_y), gamepad1.right_stick_x, r);
-
             lift.lift(-gamepad2.left_stick_y);
             lift.lock(gamepad2.a);
             lift.unlock(gamepad2.x);
@@ -81,12 +73,10 @@ public class testingdrive extends LinearOpMode {
 
 
             // Show the elapsed game time and wheel power.
-            telemetry.addData("PixyValue: ",pixyAnalogue.getAnalogRead() );
-            telemetry.addData("PixyDigital: ",pixyAnalogue.isObjectDetected());
 
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            //telemetry.addData("Motors", "left (%.2f), right (%.2f)", frontleftPower, backleftPower,frontrightPower,backrightPower);
+            telemetry.addData("Mohamed Is So Cool!: ",100);
             telemetry.update();
         }
     }

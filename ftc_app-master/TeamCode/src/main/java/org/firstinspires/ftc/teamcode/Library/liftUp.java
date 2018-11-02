@@ -14,10 +14,10 @@ import com.qualcomm.robotcore.hardware.ServoImpl;
 public class liftUp {
     private DcMotor Lifter = null;
     private Servo lock = null;
-    private final static double unlock = .6;
+    private final static double unlock = 0;
     private Servo marker = null;
 
-    private final static double locked = 0.2;
+    private final static double locked = 0.5;
 
 
     public liftUp(HardwareMap hardwareMap){
@@ -52,8 +52,6 @@ public class liftUp {
               lock.setPosition(unlock);
 
     }
-
-
 
     }
       public void drop_Marker(boolean drop){

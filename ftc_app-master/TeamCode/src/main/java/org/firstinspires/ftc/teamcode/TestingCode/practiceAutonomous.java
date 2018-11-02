@@ -16,10 +16,10 @@ public class practiceAutonomous extends PracticeAuton {
     protected void Autonomous_Mode() { // using Autonomous_Codes
 
 //moveMotor(.5,.5);
-
-
-        forward(2,1,1000); // use Autonomous_Codes here
-        marker(true);
+  landing(.5);
+//sampling(30);
+        //forward(2,1,1000); // use Autonomous_Codes here
+        //marker(true);
 //
 //        forward(4,-1,1000);
 //        turnRight(1.25,0,45);
