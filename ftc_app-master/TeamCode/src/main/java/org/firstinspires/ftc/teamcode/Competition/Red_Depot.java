@@ -6,10 +6,7 @@ import org.firstinspires.ftc.teamcode.Library.PracticeAuton;
 
 
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
-import org.firstinspires.ftc.teamcode.Library.PracticeAuton;
 
 @Autonomous(name = "Red_Depot", group = "Competition")
 

@@ -24,7 +24,7 @@ import org.firstinspires.ftc.teamcode.Library.liftUp;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name = "TournamentTelop", group = "Tournament")
+@TeleOp(name = "TournamentTeleop", group = "Tournament")
 
 
 public class TournamentTeleop extends LinearOpMode {

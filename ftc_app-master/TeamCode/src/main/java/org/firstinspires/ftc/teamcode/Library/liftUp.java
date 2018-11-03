@@ -62,6 +62,10 @@ public class liftUp {
             marker.setPosition(0.0);
         }
       }
+      public int returnEncoder(){
+      return Lifter.getCurrentPosition();
+
+      }
 
 
 

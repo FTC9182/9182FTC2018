@@ -11,7 +11,7 @@ public abstract class PracticeAuton extends LinearOpMode { // sequence run by au
     ElapsedTime autonomous_elapsetime = new ElapsedTime();
     //Rev_IMU imu = null;
     liftUp lift = null;
-    PixyCam_Analog PixySampler= null;
+    PixyCam_Analog PixySampler = null;
     // ------------------------------------------------------------------
 
     @Override
@@ -23,10 +23,12 @@ public abstract class PracticeAuton extends LinearOpMode { // sequence run by au
         drive = new DriveTrain(hardwareMap);
         lift = new liftUp(hardwareMap);
         //imu= new Rev_IMU(hardwareMap);
-        PixySampler= new PixyCam_Analog(hardwareMap);
+        PixySampler = new PixyCam_Analog(hardwareMap);
         //
         // ------------------------------------------------------
-        latching();
+
+        lift.setEncoder(true);
+        autonomous_elapsetime.reset();
         waitForStart();    // wait until the Start button is pressed
 
 
@@ -44,31 +46,48 @@ public abstract class PracticeAuton extends LinearOpMode { // sequence run by au
 
     // ========================All autonomous codes below to be edited =========================
 
-    public void forward(long timer_sec, double power,long pause) {
+    public void forward(long timer_sec, double power) {
 
-        drive.MecanumDrive(-power,0,0);
+        drive.MecanumDrive(-power, 0, 0);
 
         autonomous_elapsetime.reset();
-        while(autonomous_elapsetime.seconds() < timer_sec && opModeIsActive()) { // until it passes 5 seconds
+        while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive()) { // until it passes 5 seconds
             sleep(1);
             idle();
         }
-        drive.MecanumDrive(0,0,0); // zero power to stop
-        sleep(pause);
+        drive.MecanumDrive(0, 0, 0); // zero power to stop
+
     }
 
     public void landing(double timer_sec) {
+int intial_position= lift.returnEncoder();
 
-lift.lift(-.2);
-        autonomous_elapsetime.reset();
-        while(autonomous_elapsetime.seconds() < timer_sec && opModeIsActive()) { // until it passes 5 seconds
-            sleep(1);
+        lift.lift(-.2);
+
+        while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive()&&(intial_position-lift.returnEncoder())<100) { // until it passes 5 seconds
+
             idle();
+            telemetry.addData("Encoder: ",lift.returnEncoder());
+
+            telemetry.update();
         }
 
-       lift.unlock(true);
+        telemetry.addData("Encoder: ",lift.returnEncoder());
 
+        telemetry.update();
 
+                lift.unlock(true);
+
+        lift.lift(.2);
+
+        while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive()&&(lift.returnEncoder()-intial_position)<1500) { // until it passes 5 seconds
+
+            idle();
+            telemetry.addData("Encoder: ",lift.returnEncoder());
+
+            telemetry.update();
+        }
+        lift.lift(0);
 
         //imu.initialize();
         //after unlatching
@@ -76,54 +95,69 @@ lift.lift(-.2);
         //imu.start();
 
     }
-    public void turnRight(double timer_sec, double power,double turnAngle){
-        drive.MecanumDrive(-power,0,1);
+
+    public void turnRight(double timer_sec, double power, double turnAngle) {
+        drive.MecanumDrive(-power, 0, 1);
 
         autonomous_elapsetime.reset();
-        while(autonomous_elapsetime.seconds() < timer_sec && opModeIsActive()) { // until it passes 5 seconds
+        while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive()) { // until it passes 5 seconds
             sleep(1);
             idle();
         }
-        drive.MecanumDrive(0,0,0); // zero power to stop
+        drive.MecanumDrive(0, 0, 0); // zero power to stop
     }
 
 
-    public void sampling(long timer_sec){
+    public void sampling(long timer_sec) {
         autonomous_elapsetime.reset();
-        while(autonomous_elapsetime.seconds() < timer_sec && opModeIsActive()) { // until it passes 5 seconds
-drive.MecanumDrive(-.2,0,.5);
+        while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive()) { // until it passes 5 seconds
+            drive.MecanumDrive(-.2, 0, .5);
 
-            if( PixySampler.isObjectDetected()){
+            if (PixySampler.isObjectDetected()) {
 
-                double direction = PixySampler.getAnalogRead()-1.15;
-                drive.MecanumDrive(-.2,0,direction*.5);
+                double direction = PixySampler.getAnalogRead() - 1.15;
+                drive.MecanumDrive(-.2, 0, direction * .5);
 
-            }
-            else{
-                drive.MecanumDrive(0,0,0);
+            } else {
+                drive.MecanumDrive(0, 0, 0);
             }
             sleep(1);
             idle();
         }
-        drive.MecanumDrive(-.2,0,-.5);
-        drive.MecanumDrive(0,0,0);
+        drive.MecanumDrive(-.2, 0, -.5);
+        drive.MecanumDrive(0, 0, 0);
 
 
     }
-    public void marker(boolean isLeft){
+
+    public void marker(boolean isLeft) {
+
         lift.drop_Marker(true);
     }
-    private void latching (){
+
+    private void latching() {
         lift.setEncoder(true);
         lift.lock(true);
     }
-    public void moveMotor(double power, double seconds){
+
+    public void moveMotor(double power, double seconds) {
         lift.lift(power);
         autonomous_elapsetime.reset();
-        while(autonomous_elapsetime.seconds() < seconds && opModeIsActive()) { // until it passes 5 seconds
+        while (autonomous_elapsetime.seconds() < seconds && opModeIsActive()) { // until it passes 5 seconds
             lift.unlock(true);
             sleep(1);
             idle();
         }
+    }
+    public void move(double x,double y,double r,long timer_sec){
+        autonomous_elapsetime.reset();
+        drive.MecanumDrive(y, x, r);
+
+        while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive()) { // until it passes 5 seconds
+            sleep(1);
+            idle();
+        }
+        drive.MecanumDrive(0, 0, 0); // zero power to stop
+
     }
 }
