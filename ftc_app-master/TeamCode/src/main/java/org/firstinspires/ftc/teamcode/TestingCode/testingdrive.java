@@ -67,17 +67,19 @@ public class testingdrive extends LinearOpMode {
             //Mecanum Stuff
             if ((gamepad1.right_trigger + gamepad1.left_trigger) > 1) {
                 //Ultimate
+
             } else {
                 r = gamepad1.right_trigger - gamepad1.left_trigger;
             }
 
 
-            newDrive.MecanumDrive((-gamepad1.right_stick_y), gamepad1.right_stick_x, r);
 
+            newDrive.MecanumDrive((-gamepad1.right_stick_y), gamepad1.right_stick_x, r);
+            lift.setEncoder(false);
             lift.lift(-gamepad2.left_stick_y);
             lift.lock(gamepad2.a);
             lift.unlock(gamepad2.x);
-            lift.drop_Marker(gamepad2.b);
+
 
 
             // Show the elapsed game time and wheel power.

@@ -19,7 +19,7 @@ public class Red_Depot extends PracticeAuton {
 //moveMotor(.5,.5);
 
 
-        forward(1,1,1000); // use Autonomous_Codes here
+        forward(1,1); // use Autonomous_Codes here
         marker(true);
 //
 //        forward(4,-1,1000);

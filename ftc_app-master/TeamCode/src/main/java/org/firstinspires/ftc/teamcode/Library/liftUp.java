@@ -41,6 +41,7 @@ public class liftUp {
             Lifter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         }
+
     }
     public void lock(boolean close) {
         if (close) {

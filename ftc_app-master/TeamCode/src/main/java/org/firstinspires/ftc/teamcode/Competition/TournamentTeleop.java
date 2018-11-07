@@ -56,7 +56,7 @@ public class TournamentTeleop extends LinearOpMode {
         while (opModeIsActive()) {
 
             //gps.initialize();
-
+            double speed = 1;
             //Mecanum Stuff
             if ((gamepad1.right_trigger + gamepad1.left_trigger) > 1) {
                 //Ultimate
@@ -64,8 +64,14 @@ public class TournamentTeleop extends LinearOpMode {
                 r = gamepad1.right_trigger - gamepad1.left_trigger;
             }
 
+            if(gamepad1.y){
+                speed = .5;
+            }
+            else{
+                speed = 1;
+            }
 
-            newDrive.MecanumDrive((-gamepad1.right_stick_y), gamepad1.right_stick_x, r);
+            newDrive.MecanumDrive((-gamepad1.right_stick_y)*speed, gamepad1.right_stick_x*speed, r);
             lift.lift(-gamepad2.left_stick_y);
             lift.lock(gamepad2.a);
             lift.unlock(gamepad2.x);

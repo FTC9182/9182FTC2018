@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.Library.PracticeAuton;
 
 
 
-    @Autonomous(name = "Blue_Depot", group = "Competition")
+    @Autonomous(name = "Depo's", group = "Competition")
 
     public class Blue_Depot extends PracticeAuton {
         @Override
@@ -20,8 +20,9 @@ import org.firstinspires.ftc.teamcode.Library.PracticeAuton;
 
 
 
-
-            forward(2,1); // use Autonomous_Codes here
+            landing(10);
+            move(-.5, 0, 0, 2);
+            forward(5, .5);
             marker(true);
 
 

@@ -17,7 +17,7 @@ public class practiceAutonomous extends PracticeAuton {
 
         landing(10);
         move(-.5, 0, 0, 2);
-        forward(5, 1);
+        forward(5, .5);
         marker(true);
 
 

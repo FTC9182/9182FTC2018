@@ -48,7 +48,7 @@ public abstract class PracticeAuton extends LinearOpMode { // sequence run by au
 
     public void forward(long timer_sec, double power) {
 
-        drive.MecanumDrive(-power, 0, 0);
+        drive.MecanumDrive(power, 0, 0);
 
         autonomous_elapsetime.reset();
         while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive()) { // until it passes 5 seconds
@@ -62,7 +62,7 @@ public abstract class PracticeAuton extends LinearOpMode { // sequence run by au
     public void landing(double timer_sec) {
 int intial_position= lift.returnEncoder();
 
-        lift.lift(-.2);
+        lift.lift(-1);
 
         while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive()&&(intial_position-lift.returnEncoder())<100) { // until it passes 5 seconds
 
@@ -80,7 +80,7 @@ int intial_position= lift.returnEncoder();
 
         lift.lift(.2);
 
-        while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive()&&(lift.returnEncoder()-intial_position)<1500) { // until it passes 5 seconds
+        while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive()&&(lift.returnEncoder()-intial_position)<1600) { // until it passes 5 seconds
 
             idle();
             telemetry.addData("Encoder: ",lift.returnEncoder());
