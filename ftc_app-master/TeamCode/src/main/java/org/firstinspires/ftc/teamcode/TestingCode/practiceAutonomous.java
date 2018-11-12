@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.Library.PracticeAuton;
 
-@Autonomous(name = "Practice", group = "Competition")
+@Autonomous(name = "PixyTest", group = "Competition")
 
 public class practiceAutonomous extends PracticeAuton {
     @Override
@@ -14,11 +14,12 @@ public class practiceAutonomous extends PracticeAuton {
 
     protected void Autonomous_Mode() { // using Autonomous_Codes
 
-
-        landing(10);
-        move(-.5, 0, 0, 2);
-        forward(5, .5);
-        marker(true);
+//sampling(30);
+        pixyfinder();
+//        landing(10);
+//        move(-.5, 0, 0, 2);
+//        forward(5, .5);
+//        marker(true);
 
 
     }

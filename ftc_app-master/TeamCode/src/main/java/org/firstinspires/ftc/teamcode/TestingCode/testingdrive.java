@@ -88,7 +88,6 @@ public class testingdrive extends LinearOpMode {
 
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            //telemetry.addData("Motors", "left (%.2f), right (%.2f)", frontleftPower, backleftPower,frontrightPower,backrightPower);
             telemetry.update();
         }
     }
