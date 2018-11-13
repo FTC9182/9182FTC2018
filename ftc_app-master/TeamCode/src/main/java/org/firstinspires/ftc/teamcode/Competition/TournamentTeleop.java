@@ -71,7 +71,7 @@ public class TournamentTeleop extends LinearOpMode {
                 speed = 1;
             }
 
-            newDrive.MecanumDrive((-gamepad1.right_stick_y)*speed, gamepad1.right_stick_x*speed, r);
+            newDrive.MecanumDrive((-gamepad1.right_stick_y)*speed, gamepad1.right_stick_x*speed, -r);
             lift.lift(-gamepad2.left_stick_y);
             lift.lock(gamepad2.a);
             lift.unlock(gamepad2.x);

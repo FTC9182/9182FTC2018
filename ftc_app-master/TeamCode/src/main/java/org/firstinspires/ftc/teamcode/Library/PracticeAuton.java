@@ -60,30 +60,30 @@ public abstract class PracticeAuton extends LinearOpMode { // sequence run by au
     }
 
     public void landing(double timer_sec) {
-int intial_position= lift.returnEncoder();
+        int intial_position = lift.returnEncoder();
 
         lift.lift(-1);
 
-        while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive()&&(intial_position-lift.returnEncoder())<100) { // until it passes 5 seconds
+        while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive() && (intial_position - lift.returnEncoder()) < 100) { // until it passes 5 seconds
 
             idle();
-            telemetry.addData("Encoder: ",lift.returnEncoder());
+            telemetry.addData("Encoder: ", lift.returnEncoder());
 
             telemetry.update();
         }
 
-        telemetry.addData("Encoder: ",lift.returnEncoder());
+        telemetry.addData("Encoder: ", lift.returnEncoder());
 
         telemetry.update();
 
-                lift.unlock(true);
+        lift.unlock(true);
 
         lift.lift(.2);
 
-        while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive()&&(lift.returnEncoder()-intial_position)<1600) { // until it passes 5 seconds
+        while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive() && (lift.returnEncoder() - intial_position) < 1600) { // until it passes 5 seconds
 
             idle();
-            telemetry.addData("Encoder: ",lift.returnEncoder());
+            telemetry.addData("Encoder: ", lift.returnEncoder());
 
             telemetry.update();
         }
@@ -110,31 +110,30 @@ int intial_position= lift.returnEncoder();
 
     public void sampling(long timer_sec) {
         boolean ifnotdetecte = true;
-        while(ifnotdetecte){
+        while (ifnotdetecte) {
             drive.MecanumDrive(0, 0, .5);
-            if(PixySampler.isObjectDetected()){
+            if (PixySampler.isObjectDetected()) {
                 ifnotdetecte = false;
             }
 
         }
-        while(PixySampler.isObjectDetected()) {
+        while (PixySampler.isObjectDetected()) {
             double direction = PixySampler.getAnalogRead() - 1.15;
             drive.MecanumDrive(.2, 0, direction * .5);
         }
 
         autonomous_elapsetime.reset();
 
-        while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive()&&ifnotdetecte != false) { // until it passes 5 seconds
+        while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive() && ifnotdetecte != false) { // until it passes 5 seconds
             //drive.MecanumDrive(-.2, 0, .5);
             //move(0,0,.2,1);
-           while(ifnotdetecte=true){
+            while (ifnotdetecte = true) {
                 drive.MecanumDrive(0, 0, .5);
 
             }
 
             if (PixySampler.isObjectDetected()) {
                 ifnotdetecte = false;
-
 
 
             }
@@ -144,16 +143,12 @@ int intial_position= lift.returnEncoder();
 //            }
             //sleep(1);
             //idle();
-            telemetry.addData("Pixy detected: ",PixySampler.isObjectDetected());
+            telemetry.addData("Pixy detected: ", PixySampler.isObjectDetected());
             telemetry.update();
         }
 
         double direction = PixySampler.getAnalogRead() - 1.15;
         drive.MecanumDrive(.2, 0, direction * .5);
-
-
-
-
 
 
     }
@@ -177,7 +172,8 @@ int intial_position= lift.returnEncoder();
             idle();
         }
     }
-    public void move(double x,double y,double r,double timer_sec){
+
+    public void move(double x, double y, double r, double timer_sec) {
         autonomous_elapsetime.reset();
         drive.MecanumDrive(y, x, r);
 
@@ -188,15 +184,45 @@ int intial_position= lift.returnEncoder();
         drive.MecanumDrive(0, 0, 0); // zero power to stop
 
     }
-    public void pixyfinder(){
-        boolean ifnotdetecte = true;
-        while(PixySampler.isObjectDetected()!=true){
-            //drive.MecanumDrive(0, 0, .25);
-            move(0,0,.2,1);
 
-            move(0,0,-.2,1);
+    public void pixyfinder() {
+        //boolean ifnotdetecte = false;
+//        while(PixySampler.isObjectDetected()!= true){
+//            //drive.MecanumDrive(0, 0, .25);
+//            move(0,0,.2,1);
+//
+//            move(0,0,-.2,1);
+//
+//        }
+
+        while (autonomous_elapsetime.seconds() < 20 && opModeIsActive()) { // until it passes 5 seconds
+
+
+                if (PixySampler.isObjectDetected()) {
+                    double direction = PixySampler.getAnalogRead() - 1.15;
+                    drive.MecanumDrive(.6, 0, direction * -.2);
+
+
+
+
+                    telemetry.addData("Pixy value: ", PixySampler.getAnalogRead());
+                    telemetry.update();
+                }
+                else {
+                    while(PixySampler.isObjectDetected()==false) {
+                        move(0, 0, 0, .5);
+
+                        move(0, 0, .2, 1);
+                    }
+                }
+
+            sleep(1);
+            idle();
+
 
         }
+
+
 //        while(PixySampler.isObjectDetected()) {
 //            double direction = PixySampler.getAnalogRead() - 1.15;
 //            drive.MecanumDrive(.2, 0, direction * -.2);
