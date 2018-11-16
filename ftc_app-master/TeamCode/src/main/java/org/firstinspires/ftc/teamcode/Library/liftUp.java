@@ -13,17 +13,19 @@ import com.qualcomm.robotcore.hardware.ServoImpl;
 
 public class liftUp {
     private DcMotor Lifter = null;
-    private Servo lock = null;
-    private final static double unlock = 0;
+    private DcMotor Liftermotor2 = null;
+
+
     private Servo marker = null;
 
-    private final static double locked = 0.5;
+
 
 
     public liftUp(HardwareMap hardwareMap){
         Lifter = hardwareMap.get(DcMotor.class, "Lifter");
-        lock =  hardwareMap.get(Servo.class, "lock_servo");
+
         marker = hardwareMap.get(Servo.class, "marker_servo");
+        Liftermotor2 = hardwareMap.get(DcMotor.class, "lifter_motor2");
 
 
 
@@ -34,6 +36,7 @@ public class liftUp {
     public void lift(double power){
 
         Lifter.setPower(power);
+        Liftermotor2.setPower(power);
     }
     public void setEncoder(Boolean encoder) {
         if (encoder) {
@@ -43,18 +46,7 @@ public class liftUp {
         }
 
     }
-    public void lock(boolean close) {
-        if (close) {
-            lock.setPosition(locked);
-        }
-    }
-        public void unlock(boolean open){
-          if(open) {
-              lock.setPosition(unlock);
 
-    }
-
-    }
       public void drop_Marker(boolean drop){
         if(drop) {
             marker.setPosition(0.5);

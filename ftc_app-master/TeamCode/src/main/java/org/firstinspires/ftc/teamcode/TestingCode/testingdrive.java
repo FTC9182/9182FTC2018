@@ -77,8 +77,8 @@ public class testingdrive extends LinearOpMode {
             newDrive.MecanumDrive((-gamepad1.right_stick_y), gamepad1.right_stick_x, r);
             lift.setEncoder(false);
             lift.lift(-gamepad2.left_stick_y);
-            lift.lock(gamepad2.a);
-            lift.unlock(gamepad2.x);
+            //lift.lock(gamepad2.a);
+            //lift.unlock(gamepad2.x);
 
 
 

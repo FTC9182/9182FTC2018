@@ -15,6 +15,7 @@ public class practiceAutonomous extends PracticeAuton {
     protected void Autonomous_Mode() { // using Autonomous_Codes
 
 //sampling(30);
+
         pixyfinder();
 //        landing(10);
 //        move(-.5, 0, 0, 2);

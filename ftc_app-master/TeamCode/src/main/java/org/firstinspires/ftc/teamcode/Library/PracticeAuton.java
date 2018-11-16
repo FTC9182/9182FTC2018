@@ -76,7 +76,7 @@ public abstract class PracticeAuton extends LinearOpMode { // sequence run by au
 
         telemetry.update();
 
-        lift.unlock(true);
+        //lift.unlock(true);
 
         lift.lift(.2);
 
@@ -109,48 +109,21 @@ public abstract class PracticeAuton extends LinearOpMode { // sequence run by au
 
 
     public void sampling(long timer_sec) {
-        boolean ifnotdetecte = true;
-        while (ifnotdetecte) {
-            drive.MecanumDrive(0, 0, .5);
-            if (PixySampler.isObjectDetected()) {
-                ifnotdetecte = false;
+        forward(1,.5);
+        forward(1,0);
+        if(PixySampler.isObjectDetected()){
+          forward(1,.5);
+
+
+        }
+        else{
+            move(-.5,0,0,1);
+            forward(1,0);
+            if(PixySampler.isObjectDetected()){
+                forward(1,.5);
             }
 
         }
-        while (PixySampler.isObjectDetected()) {
-            double direction = PixySampler.getAnalogRead() - 1.15;
-            drive.MecanumDrive(.2, 0, direction * .5);
-        }
-
-        autonomous_elapsetime.reset();
-
-        while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive() && ifnotdetecte != false) { // until it passes 5 seconds
-            //drive.MecanumDrive(-.2, 0, .5);
-            //move(0,0,.2,1);
-            while (ifnotdetecte = true) {
-                drive.MecanumDrive(0, 0, .5);
-
-            }
-
-            if (PixySampler.isObjectDetected()) {
-                ifnotdetecte = false;
-
-
-            }
-//            else {
-//                drive.MecanumDrive(0, 0, 0);
-            //move(0,0,-.2,1);
-//            }
-            //sleep(1);
-            //idle();
-            telemetry.addData("Pixy detected: ", PixySampler.isObjectDetected());
-            telemetry.update();
-        }
-
-        double direction = PixySampler.getAnalogRead() - 1.15;
-        drive.MecanumDrive(.2, 0, direction * .5);
-
-
     }
 
     public void marker(boolean isLeft) {
@@ -160,14 +133,14 @@ public abstract class PracticeAuton extends LinearOpMode { // sequence run by au
 
     private void latching() {
         lift.setEncoder(true);
-        lift.lock(true);
+        //lift.lock(true);
     }
 
     public void moveMotor(double power, double seconds) {
         lift.lift(power);
         autonomous_elapsetime.reset();
         while (autonomous_elapsetime.seconds() < seconds && opModeIsActive()) { // until it passes 5 seconds
-            lift.unlock(true);
+           // lift.unlock(true);
             sleep(1);
             idle();
         }
@@ -186,23 +159,14 @@ public abstract class PracticeAuton extends LinearOpMode { // sequence run by au
     }
 
     public void pixyfinder() {
-        //boolean ifnotdetecte = false;
-//        while(PixySampler.isObjectDetected()!= true){
-//            //drive.MecanumDrive(0, 0, .25);
-//            move(0,0,.2,1);
-//
-//            move(0,0,-.2,1);
-//
-//        }
+
 
         while (autonomous_elapsetime.seconds() < 20 && opModeIsActive()) { // until it passes 5 seconds
 
 
                 if (PixySampler.isObjectDetected()) {
                     double direction = PixySampler.getAnalogRead() - 1.15;
-                    drive.MecanumDrive(.6, 0, direction * -.2);
-
-
+                    drive.MecanumDrive(.6, 0, direction * .2);
 
 
                     telemetry.addData("Pixy value: ", PixySampler.getAnalogRead());
@@ -223,9 +187,5 @@ public abstract class PracticeAuton extends LinearOpMode { // sequence run by au
         }
 
 
-//        while(PixySampler.isObjectDetected()) {
-//            double direction = PixySampler.getAnalogRead() - 1.15;
-//            drive.MecanumDrive(.2, 0, direction * -.2);
-//        }
     }
 }
