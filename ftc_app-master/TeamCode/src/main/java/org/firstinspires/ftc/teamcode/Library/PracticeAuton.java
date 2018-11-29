@@ -11,7 +11,9 @@ public abstract class PracticeAuton extends LinearOpMode { // sequence run by au
     ElapsedTime autonomous_elapsetime = new ElapsedTime();
     //Rev_IMU imu = null;
     liftUp lift = null;
-    PixyCam_Analog PixySampler = null;
+    public PixyCam_Analog PixySampler = null;
+    TensorFlow tensorflow;
+    ElapsedTime elapsedTime = new ElapsedTime();
     // ------------------------------------------------------------------
 
     @Override
@@ -24,6 +26,7 @@ public abstract class PracticeAuton extends LinearOpMode { // sequence run by au
         lift = new liftUp(hardwareMap);
         //imu= new Rev_IMU(hardwareMap);
         PixySampler = new PixyCam_Analog(hardwareMap);
+        tensorflow= new TensorFlow(hardwareMap);
         //
         // ------------------------------------------------------
 
@@ -62,37 +65,30 @@ public abstract class PracticeAuton extends LinearOpMode { // sequence run by au
     public void landing(double timer_sec) {
         int intial_position = lift.returnEncoder();
 
-        lift.lift(-1);
+        lift.lift(-.5);
 
-        while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive() && (intial_position - lift.returnEncoder()) < 100) { // until it passes 5 seconds
-
-            idle();
-            telemetry.addData("Encoder: ", lift.returnEncoder());
-
-            telemetry.update();
-        }
-
-        telemetry.addData("Encoder: ", lift.returnEncoder());
-
-        telemetry.update();
-
-        //lift.unlock(true);
-
-        lift.lift(.2);
-
-        while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive() && (lift.returnEncoder() - intial_position) < 1600) { // until it passes 5 seconds
+        while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive() && (intial_position-lift.returnEncoder()  ) < 2500) { // until it passes 5 seconds
 
             idle();
-            telemetry.addData("Encoder: ", lift.returnEncoder());
+            telemetry.addData("Encoder: ", intial_position-lift.returnEncoder());
 
             telemetry.update();
         }
         lift.lift(0);
 
-        //imu.initialize();
-        //after unlatching
 
-        //imu.start();
+        move(0,-.5,0,.3);
+
+        lift.lift(.2);
+
+        while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive() && (intial_position-lift.returnEncoder()  ) > 2300) { // until it passes 5 seconds
+
+            idle();
+            telemetry.addData("Encoder: ", intial_position-lift.returnEncoder());
+
+            telemetry.update();
+        }
+lift.lift(0);
 
     }
 
@@ -111,8 +107,12 @@ public abstract class PracticeAuton extends LinearOpMode { // sequence run by au
     public void sampling(long timer_sec) {
         forward(1,.5);
         forward(1,0);
+        telemetry.addData("Object",PixySampler.isObjectDetected());
+        telemetry.update();
         if(PixySampler.isObjectDetected()){
           forward(1,.5);
+            telemetry.addData("Object",PixySampler.isObjectDetected());
+            telemetry.update();
 
 
         }
@@ -146,7 +146,7 @@ public abstract class PracticeAuton extends LinearOpMode { // sequence run by au
         }
     }
 
-    public void move(double x, double y, double r, double timer_sec) {
+    public void  move(double x, double y, double r, double timer_sec) {
         autonomous_elapsetime.reset();
         drive.MecanumDrive(y, x, r);
 
@@ -188,4 +188,62 @@ public abstract class PracticeAuton extends LinearOpMode { // sequence run by au
 
 
     }
+    public void landingsequence(double timer_sec){
+        lift.lift(-1);
+        while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive()) { // until it passes 5 seconds
+            sleep(1);
+            idle();
+        }
+
+    }
+    public void isPixy(double timer_sec){
+
+
+
+        while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive()) { // until it passes 5 seconds
+            telemetry.addData("object",PixySampler.isObjectDetected());
+            telemetry.update();
+            sleep(1);
+            idle();
+        }
+    }
+
+    public void TensorFlowA(double timer_sec){
+        while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive()){
+            elapsedTime.reset();
+            telemetry.addData("is phone compatible?:", tensorflow.isPhoneCompatible());
+            if (tensorflow.isPhoneCompatible()) {
+                int location_direction = tensorflow.runTensorFlow();
+                telemetry.addData("Location:", location_direction);
+                if (location_direction < 2) { // only -1, 0, 1 for left, middle and right
+                    telemetry.addData("Estimate angle: ", tensorflow.angle_gold);
+                    if (location_direction < 0) {
+
+                        move(0,0,.5,.3);
+                        forward(3,.5);
+
+                        telemetry.addData("Gold location: ", "Left");
+                    } else if( location_direction<1) {
+                        telemetry.addData("Gold location: ", "Center");
+
+                        forward(3,.5);
+
+                    } else if( location_direction<2) {
+
+                        move(0,0,-.5,.3);
+                        forward(3,.5);
+
+                        telemetry.addData("Gold location: ", "Right");
+
+                    }
+                }
+            }
+            telemetry.update(); // to actually send to the phone message for debugging purpose
+        }
+        tensorflow.stopTensorFlow();  // stop it at the end of autonomous
+    }
 }
+
+
+
+

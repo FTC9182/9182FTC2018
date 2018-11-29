@@ -67,7 +67,7 @@ public class TournamentTeleop extends LinearOpMode {
             if(gamepad2.dpad_down){
                 speed = .5;
             }
-            else{
+            else if(gamepad1.dpad_up){
                 speed = 1;
             }
 
@@ -75,7 +75,7 @@ public class TournamentTeleop extends LinearOpMode {
             lift.lift(-gamepad2.left_stick_y);
             //lift.lock(gamepad2.a);
             //lift.unlock(gamepad2.x);
-            lift.drop_Marker(gamepad2.b);
+            lift.drop_Marker(gamepad2.y);
 
 
             // Show the elapsed game time and wheel power.
