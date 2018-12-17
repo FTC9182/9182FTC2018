@@ -19,10 +19,10 @@ public class TensorFlow {
     private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
     private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
     private static final String VUFORIA_KEY = "AdksQ3j/////AAAAGVB9GUsSEE0BlMaVB7HcRZRM4Sv74bxusFbCpn3gwnUkr3GuOtSWhrTCHnTU/93+Im+JlrYI6///bytu1igZT48xQ6182nSTpVzJ2ZP+Q/sNzSg3qvIOMnjEptutngqB+e3mQ1+YTiDa9aZod1e8X7UvGsAJ3cfV+X/S3E4M/81d1IRSMPRPEaLpKFdMqN3AcbDpBHoqp82fAp7XWVN3qd/BRe0CAAoNsr26scPBAxvm9cizRG1WeRSFms3XkwFN6eGpH7VpNAdPPXep9RQ3lLZMTFQGOfiV/vRQXq/Tlaj/b7dkA12zBSW81MfBiXRxp06NGieFe7KvXNuu2aDyyXoaPFsI44FEGp1z/SVSEVR4";
+    public double angle_gold = 90;
     private VuforiaLocalizer vuforia;
     private TFObjectDetector tfod;
     private boolean isCompatible;
-    public double angle_gold;
 
     public TensorFlow(HardwareMap hardwareMap) {
         isCompatible = initVuforia(hardwareMap);
@@ -43,6 +43,7 @@ public class TensorFlow {
                     int goldMineralX = -1;
                     int silverMineral1X = -1;
                     int silverMineral2X = -1;
+
                     for (Recognition recognition : updatedRecognitions) {
                         if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
                             goldMineralX = (int) recognition.getLeft();
@@ -60,6 +61,18 @@ public class TensorFlow {
                             return 1;
                         } else {
                             return 0;
+                        }
+                    }
+                } else {//if less than 3 minerals are recognized
+                    int goldMineralX = -1;
+
+                    for (Recognition recognition : updatedRecognitions) {
+
+                        if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
+                            goldMineralX = (int) recognition.getLeft();
+                            angle_gold = recognition.estimateAngleToObject(AngleUnit.DEGREES);
+                            return 7;
+
                         }
                     }
                 }

@@ -30,7 +30,7 @@ import org.firstinspires.ftc.teamcode.Library.PracticeAuton;
 
             move(.5,0,0,.4);//right
             //I added the moving back the center
-            move(0,0,-.5,.3);//rotate adjust
+            //move(0,0,-.5,.3);//rotate adjust
 
             forward(3, .5);
             marker(true);

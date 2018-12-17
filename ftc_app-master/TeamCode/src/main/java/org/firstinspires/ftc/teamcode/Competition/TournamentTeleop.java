@@ -73,9 +73,11 @@ public class TournamentTeleop extends LinearOpMode {
 
             newDrive.MecanumDrive((-gamepad1.right_stick_y)*speed, gamepad1.right_stick_x*speed, -r);
             lift.lift(-gamepad2.left_stick_y);
+            lift.extender(gamepad2.right_stick_y);
             //lift.lock(gamepad2.a);
             //lift.unlock(gamepad2.x);
             lift.drop_Marker(gamepad2.y);
+            lift.intake((-gamepad2.right_trigger)/2);
 
 
             // Show the elapsed game time and wheel power.
@@ -84,7 +86,7 @@ public class TournamentTeleop extends LinearOpMode {
 
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Mohamed Is So Cool!: ",mo);
+
             telemetry.update();
         }
     }

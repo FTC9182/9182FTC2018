@@ -63,7 +63,8 @@ public class DriveTrain {
         backrightPower = (y - x - r);
         backleftPower = (y + x + r);
 
-        double nValue = Math.max(Math.max(Math.max((Math.abs(frontrightPower)),(Math.abs(frontleftPower))),Math.abs(backrightPower)),Math.abs(backleftPower));
+        double nValue = Math.max(Math.max(Math.max((Math.abs(frontrightPower)),
+                (Math.abs(frontleftPower))),Math.abs(backrightPower)),Math.abs(backleftPower));
         //normalizes the power to account for the rotation^
         if(nValue<1) {
             nValue=1;

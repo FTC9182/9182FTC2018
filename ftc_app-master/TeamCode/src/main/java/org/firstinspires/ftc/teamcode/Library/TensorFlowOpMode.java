@@ -31,7 +31,7 @@ public class TensorFlowOpMode extends LinearOpMode {
                     int location_direction = tensorflow.runTensorFlow();
                     telemetry.addData("Location:", location_direction);
                     if (location_direction < 2) { // only -1, 0, 1 for left, middle and right
-                        telemetry.addData("Estimate angle: ", tensorflow.angle_gold);
+                        //telemetry.addData("Estimate angle: ", tensorflow.angle_gold);
                         if (location_direction < 0) {
                             telemetry.addData("Gold location: ", "Left");
                         } else if( location_direction<1) {
@@ -39,8 +39,10 @@ public class TensorFlowOpMode extends LinearOpMode {
                         } else if( location_direction<2) {
                             telemetry.addData("Gold location: ", "Right");
                         }
+
                     }
                 }
+                telemetry.addData("angle",tensorflow.angle_gold);
                 telemetry.update(); // to actually send to the phone message for debugging purpose
             }
         }

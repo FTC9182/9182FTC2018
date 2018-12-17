@@ -10,15 +10,18 @@ import org.firstinspires.ftc.teamcode.Library.PracticeAuton;
 
 
 
-@Autonomous(name = "TensorFlow", group = "Competition")
+@Autonomous(name = "LatchTest", group = "Competitio")
 
-public class TensorFlowAuto extends PracticeAuton {
+public class NewLatch extends PracticeAuton {
     @Override
 
 
     protected void Autonomous_Mode() { // using Autonomous_Codes
 
-tensorflowTest(10);
+
+
+        landing(30);
+
 
 
 

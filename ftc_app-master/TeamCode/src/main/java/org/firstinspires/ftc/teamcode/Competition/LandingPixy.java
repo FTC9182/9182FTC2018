@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.Library.PracticeAuton;
 
 
 
-@Autonomous(name = "LandingPixy", group = "Competition")
+@Autonomous(name = "LandDepotOnly", group = "Competition")
 
 public class LandingPixy extends PracticeAuton {
     @Override
@@ -20,15 +20,29 @@ public class LandingPixy extends PracticeAuton {
 
 
 
-        //landing(10);
+        landing(10);
 
-        //move(-.5, 0, 0, 1);
-        //move(0,0,.1,.5);
-        //move(.5,0,0,1);
+        move(0,0,-.5,.3);
 
-        //sampling(10);
-isPixy(20);
+        move(-.5, 0, 0, .5);//left
 
+        move(0,0,0,1);//wait
+
+        move(0,.5,0,.2); //forward
+
+        move(.5,0,0,.4);//right
+        //I added the moving back the center
+        //move(0,0,-.5,.3);//rotate adjust
+
+        move(0,-.5,0,.2);// back
+
+        runLift(.5,.5);
+
+        forward(4,.5);
+
+        marker(true);
+
+        forward(2,-.5);
 
 
     }

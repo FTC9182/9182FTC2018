@@ -14,6 +14,9 @@ import com.qualcomm.robotcore.hardware.ServoImpl;
 public class liftUp {
     private DcMotor Lifter = null;
     private DcMotor Liftermotor2 = null;
+    private DcMotor extender = null;
+
+    private DcMotor intake = null;
 
 
     private Servo marker = null;
@@ -26,6 +29,10 @@ public class liftUp {
 
         marker = hardwareMap.get(Servo.class, "marker_servo");
         Liftermotor2 = hardwareMap.get(DcMotor.class, "lifter_motor2");
+
+        extender = hardwareMap.get(DcMotor.class, "extender_motor");
+        intake = hardwareMap.get(DcMotor.class, "intake_motor");
+
 
 
 
@@ -58,6 +65,13 @@ public class liftUp {
       public int returnEncoder(){
       return Lifter.getCurrentPosition();
 
+      }
+      public void extender(float power){
+          extender.setPower(power);
+      }
+
+      public void intake(float power){
+          intake.setPower(power);
       }
 
 

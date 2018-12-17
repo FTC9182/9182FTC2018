@@ -31,9 +31,9 @@ public abstract class PracticeAuton extends LinearOpMode { // sequence run by au
         // ------------------------------------------------------
 
         lift.setEncoder(true);
-        autonomous_elapsetime.reset();
-        waitForStart();    // wait until the Start button is pressed
 
+        waitForStart();    // wait until the Start button is pressed
+        autonomous_elapsetime.reset();
 
         // Add sequence common to all autonomous at the beginning here, Jewel for example
         // doing jewel
@@ -65,6 +65,15 @@ public abstract class PracticeAuton extends LinearOpMode { // sequence run by au
     public void landing(double timer_sec) {
         int intial_position = lift.returnEncoder();
 
+        lift.lift(.5);
+        while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive() && (intial_position-lift.returnEncoder()  ) > -700) { // until it passes 5 seconds
+
+            idle();
+            telemetry.addData("Encoder: ", intial_position-lift.returnEncoder());
+
+            telemetry.update();
+        }
+        lift.lift(0);
         lift.lift(-.5);
 
         while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive() && (intial_position-lift.returnEncoder()  ) < 2500) { // until it passes 5 seconds
@@ -220,28 +229,80 @@ lift.lift(0);
                     if (location_direction < 0) {
 
                         move(0,0,.5,.3);
+
                         forward(3,.5);
+
+                        move(0,0,-.5,.3);
+
+
+                        forward(3,.5);
+                        lift.drop_Marker(true);
 
                         telemetry.addData("Gold location: ", "Left");
                     } else if( location_direction<1) {
                         telemetry.addData("Gold location: ", "Center");
 
-                        forward(3,.5);
+                        forward(4,.5);
+                        lift.drop_Marker(true);
 
                     } else if( location_direction<2) {
 
                         move(0,0,-.5,.3);
                         forward(3,.5);
 
+                        move(0,0,.5,.3);
+
+                        forward(3,.5);
+
+                        lift.drop_Marker(true);
+
                         telemetry.addData("Gold location: ", "Right");
 
                     }
+
                 }
             }
             telemetry.update(); // to actually send to the phone message for debugging purpose
         }
         tensorflow.stopTensorFlow();  // stop it at the end of autonomous
     }
+    public void runLift(double timer_sec,double power){
+        lift.lift(power);
+
+        autonomous_elapsetime.reset();
+        while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive()) { // until it passes 5 seconds
+            sleep(1);
+            idle();
+        }
+        lift.lift(0); // zero power to stop
+
+    }
+    public void tensorflowTest(double timer_sec) {
+        while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive()) {
+            elapsedTime.reset();
+//            int Left_count = 0;
+//            int Center_count= 0;
+//            int Right_count = 0;
+//            if(tensorflow.angle_gold>-20&&tensorflow.angle_gold<-15)
+//            tensorflow.angle_gold
+            forward((long).5,.5);
+            if( tensorflow.runTensorFlow()==7){
+forward(2,.5);
+            }
+            else{
+                move(0,-.5,0,1);
+                if(tensorflow.runTensorFlow()==7){
+                    forward(2,.5);
+                }
+                else{
+                    move(0,.5,0,2);
+                    forward(2,.5);
+                }
+            }
+
+        }
+    }
+
 }
 
 
