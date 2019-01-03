@@ -4,11 +4,11 @@ package org.firstinspires.ftc.teamcode.TestingCode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
-import org.firstinspires.ftc.teamcode.Library.PracticeAuton;
+import org.firstinspires.ftc.teamcode.Library.TournamentAutonomous;
 
 @Autonomous(name = "PixyTest", group = "Competition")
-
-public class practiceAutonomous extends PracticeAuton {
+@Disabled
+public class practiceAutonomous extends TournamentAutonomous {
     @Override
 
 

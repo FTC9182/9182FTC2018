@@ -20,6 +20,7 @@ public class liftUp {
 
 
     private Servo marker = null;
+    private Servo door = null;
 
 
 
@@ -32,6 +33,9 @@ public class liftUp {
 
         extender = hardwareMap.get(DcMotor.class, "extender_motor");
         intake = hardwareMap.get(DcMotor.class, "intake_motor");
+
+        door = hardwareMap.get(Servo.class, "door_servo");
+
 
 
 
@@ -72,6 +76,15 @@ public class liftUp {
 
       public void intake(float power){
           intake.setPower(power);
+      }
+
+      public void intakeDoor(boolean open){
+          if(open){
+              door.setPosition(0);
+          }
+          else{
+              door.setPosition(1);
+          }
       }
 
 

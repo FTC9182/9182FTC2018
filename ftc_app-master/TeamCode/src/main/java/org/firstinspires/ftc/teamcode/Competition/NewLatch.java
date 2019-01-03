@@ -1,8 +1,9 @@
 package org.firstinspires.ftc.teamcode.Competition;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
-import org.firstinspires.ftc.teamcode.Library.PracticeAuton;
+import org.firstinspires.ftc.teamcode.Library.TournamentAutonomous;
 
 /**
  * Created by mohamedarab on 10/27/18.
@@ -10,9 +11,9 @@ import org.firstinspires.ftc.teamcode.Library.PracticeAuton;
 
 
 
-@Autonomous(name = "LatchTest", group = "Competitio")
+@Autonomous(name = "LandingOnly", group = "Competitio")
 
-public class NewLatch extends PracticeAuton {
+public class NewLatch extends TournamentAutonomous {
     @Override
 
 

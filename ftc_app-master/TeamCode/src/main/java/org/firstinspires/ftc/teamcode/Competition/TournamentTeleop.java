@@ -64,7 +64,7 @@ public class TournamentTeleop extends LinearOpMode {
                 r = gamepad1.right_trigger - gamepad1.left_trigger;
             }
 
-            if(gamepad2.dpad_down){
+            if(gamepad1.dpad_down){
                 speed = .5;
             }
             else if(gamepad1.dpad_up){
@@ -78,12 +78,9 @@ public class TournamentTeleop extends LinearOpMode {
             //lift.unlock(gamepad2.x);
             lift.drop_Marker(gamepad2.y);
             lift.intake((-gamepad2.right_trigger)/2);
-
+            lift.intakeDoor(gamepad1.x);
 
             // Show the elapsed game time and wheel power.
-            int mo = 0;
-            mo++;
-
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
 

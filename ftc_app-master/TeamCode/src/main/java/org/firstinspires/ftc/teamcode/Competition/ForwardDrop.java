@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.Competition;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.Library.PracticeAuton;
+import org.firstinspires.ftc.teamcode.Library.TournamentAutonomous;
 
 /**
  * Created by mohamedarab on 10/27/18.
@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.Library.PracticeAuton;
 
 @Autonomous(name = "ForwardDrop", group = "Competition")
 
-public class Blue_Crater extends PracticeAuton {
+public class ForwardDrop extends TournamentAutonomous {
     @Override
 
 

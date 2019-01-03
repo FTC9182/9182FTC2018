@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.Competition;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.Library.PracticeAuton;
+import org.firstinspires.ftc.teamcode.Library.TournamentAutonomous;
 
 /**
  * Created by mohamedarab on 10/27/18.
@@ -12,13 +12,13 @@ import org.firstinspires.ftc.teamcode.Library.PracticeAuton;
 
 @Autonomous(name = "TensorFlow", group = "Competition")
 
-public class TensorFlowAuto extends PracticeAuton {
+public class TensorFlowAuto extends TournamentAutonomous {
     @Override
 
 
     protected void Autonomous_Mode() { // using Autonomous_Codes
 
-tensorflowTest(10);
+Tensorflow_driveup();
 
 
 

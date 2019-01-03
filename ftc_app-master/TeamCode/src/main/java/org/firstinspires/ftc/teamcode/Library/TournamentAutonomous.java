@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.Library;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-public abstract class PracticeAuton extends LinearOpMode { // sequence run by autonomous
+public abstract class TournamentAutonomous extends LinearOpMode { // sequence run by autonomous
     protected abstract void Autonomous_Mode();  // All autonomous mode declaration
 
     // --------------- Declaration to be edited -------------------------
@@ -98,6 +98,26 @@ public abstract class PracticeAuton extends LinearOpMode { // sequence run by au
             telemetry.update();
         }
 lift.lift(0);
+
+
+        move(0,0,-.5,.3);
+
+        move(-.5, 0, 0, .5);//left
+
+        move(0,0,0,1);//wait
+
+        move(0,.5,0,.2); //forward
+
+        move(.5,0,0,.4);//right
+        //I added the moving back the center
+        //move(0,0,-.5,.3);//rotate adjust
+
+        move(0,-.5,0,.2);// back
+        runLift(1,.5);
+
+//        move(0,0,.5,2);// adjust for phone
+//        move(0,-.5,0,.2);
+
 
     }
 
@@ -285,25 +305,72 @@ lift.lift(0);
 //            int Right_count = 0;
 //            if(tensorflow.angle_gold>-20&&tensorflow.angle_gold<-15)
 //            tensorflow.angle_gold
-            forward((long).5,.5);
-            if( tensorflow.runTensorFlow()==7){
-forward(2,.5);
-            }
-            else{
-                move(0,-.5,0,1);
-                if(tensorflow.runTensorFlow()==7){
-                    forward(2,.5);
+//            forward((long).5,.5);
+//            if( tensorflow.runTensorFlow()==7){
+//forward(2,.5);
+//            }
+//            else{
+//                move(0,-.5,0,1);
+//                if(tensorflow.runTensorFlow()==7){
+//                    forward(2,.5);
+//                }
+//                else{
+//                    move(0,.5,0,2);
+//                    forward(2,.5);
+//                }
+//            }
+//
+            if (tensorflow.runTensorFlow() == 7) {
+                if (tensorflow.angle_gold > -28 && tensorflow.angle_gold < -10) {
+                    //move(0,0,-.5,1.4); //face forward
+                    move(0, 0, -.5, 1);
+                    move(0, .5, 0, 1);
+                    telemetry.addData("left", tensorflow.angle_gold);// if it sees the cube between -28 and -10
+                } else if (tensorflow.angle_gold > -10 && tensorflow.angle_gold < 10) {
+                    move(0, 0, -.5, 1.7); //face forward
+                    move(0, .5, 0, 2);
+                    telemetry.addData("center", tensorflow.angle_gold);//if it sees the cube between -10 and 10
+                } else if (tensorflow.angle_gold > -10 && tensorflow.angle_gold < 10) {
+                    move(0, 0, -.5, 2.2); //face forward
+                    move(0, 0, -.5, 2);
+                    telemetry.addData("right", tensorflow.angle_gold);// if it sees the cube between -10 and 28
+                } else {
+
                 }
-                else{
-                    move(0,.5,0,2);
-                    forward(2,.5);
-                }
             }
+            telemetry.update();
+
 
         }
     }
+        public void Tensorflow_driveup(){
 
-}
+            move(0,.5,0,.7);
+            move(0, 0, .5, 1.7); //face side
+            move(0,0,0,2);
+            if(tensorflow.runTensorFlow()==7){
+
+                move(0, 0, -.5, 1.7); //face side
+                move(0,-.5,0,2);
+            }
+            else{
+                move(0,.5,0,1);
+                if(tensorflow.runTensorFlow()==7){
+                    move(0, 0, .5, 1.7); //face side
+                    move(0,-.5,0,2);
+
+                }
+                else{
+                    move(0,-.5,0,2);
+                    move(0, 0, -.5, 1.7); //face side
+                    move(0,.5,0,2);
+                }
+
+            }
+    }
+    }
+
+
 
 
 

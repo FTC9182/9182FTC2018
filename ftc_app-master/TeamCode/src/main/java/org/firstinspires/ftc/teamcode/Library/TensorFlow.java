@@ -101,6 +101,9 @@ public class TensorFlow {
             return false;
         }
     }
+    public float getConfidence(){
+     return 0;
+    }
 
     /**
      * Initialize the Tensor Flow Object Detection engine.

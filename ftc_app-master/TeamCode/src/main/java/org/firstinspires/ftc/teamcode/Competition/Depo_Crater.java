@@ -1,8 +1,9 @@
 package org.firstinspires.ftc.teamcode.Competition;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
-import org.firstinspires.ftc.teamcode.Library.PracticeAuton;
+import org.firstinspires.ftc.teamcode.Library.TournamentAutonomous;
 
 /**
  * Created by mohamedarab on 10/27/18.
@@ -11,8 +12,8 @@ import org.firstinspires.ftc.teamcode.Library.PracticeAuton;
 
 
 @Autonomous(name = "DepotCrater", group = "Competition")
-
-public class Depo_Crater extends PracticeAuton {
+@Disabled
+public class Depo_Crater extends TournamentAutonomous {
     @Override
 
 
