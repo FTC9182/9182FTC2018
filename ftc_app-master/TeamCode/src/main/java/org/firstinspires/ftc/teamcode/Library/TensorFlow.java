@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Library;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -23,6 +24,9 @@ public class TensorFlow {
     private VuforiaLocalizer vuforia;
     private TFObjectDetector tfod;
     private boolean isCompatible;
+    private float confidence;
+    ElapsedTime elapsedTime = new ElapsedTime();
+    ElapsedTime elapsedTime2 = new ElapsedTime();
 
     public TensorFlow(HardwareMap hardwareMap) {
         isCompatible = initVuforia(hardwareMap);
@@ -34,6 +38,7 @@ public class TensorFlow {
 
     // ================= return -1 = Left side, 0 = Middle, 1 = Right, 2 = not detected
     public int runTensorFlow() {
+        confidence=0;
         if (tfod != null) {
             tfod.activate();
             List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
@@ -48,6 +53,7 @@ public class TensorFlow {
                         if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
                             goldMineralX = (int) recognition.getLeft();
                             angle_gold = recognition.estimateAngleToObject(AngleUnit.DEGREES);
+                            confidence = recognition.getConfidence();
                         } else if (silverMineral1X == -1) {
                             silverMineral1X = (int) recognition.getLeft();
                         } else {
@@ -71,6 +77,7 @@ public class TensorFlow {
                         if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
                             goldMineralX = (int) recognition.getLeft();
                             angle_gold = recognition.estimateAngleToObject(AngleUnit.DEGREES);
+                            confidence = recognition.getConfidence();
                             return 7;
 
                         }
@@ -102,7 +109,24 @@ public class TensorFlow {
         }
     }
     public float getConfidence(){
-     return 0;
+     return confidence;
+    }
+    public boolean checkConfidence() {
+        elapsedTime2.reset();
+        while(elapsedTime2.seconds()<3){
+
+        if (elapsedTime.milliseconds() > 100) // Update every tenth of a second.
+        {
+
+            runTensorFlow();
+            if(confidence>.8){
+return true;
+            }
+            elapsedTime.reset();
+        }
+
+      }
+      return false;
     }
 
     /**

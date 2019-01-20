@@ -43,6 +43,7 @@ public class TensorFlowOpMode extends LinearOpMode {
                     }
                 }
                 telemetry.addData("angle",tensorflow.angle_gold);
+                telemetry.addData("Confidence",tensorflow.getConfidence());
                 telemetry.update(); // to actually send to the phone message for debugging purpose
             }
         }

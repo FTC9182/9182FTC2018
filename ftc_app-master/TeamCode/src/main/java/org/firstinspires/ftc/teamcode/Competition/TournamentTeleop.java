@@ -63,7 +63,7 @@ public class TournamentTeleop extends LinearOpMode {
             } else {
                 r = gamepad1.right_trigger - gamepad1.left_trigger;
             }
-
+//makes it so that the driver can slow down the robot
             if(gamepad1.dpad_down){
                 speed = .5;
             }
@@ -72,11 +72,18 @@ public class TournamentTeleop extends LinearOpMode {
             }
 
             newDrive.MecanumDrive((-gamepad1.right_stick_y)*speed, gamepad1.right_stick_x*speed, -r);
-            lift.lift(-gamepad2.left_stick_y);
+            double up = 1;
+            if(gamepad2.left_bumper){
+                up = -1;
+            }
+            else{
+                up = 1;
+            }
+            lift.lift(-gamepad2.left_stick_y*up);
             lift.extender(gamepad2.right_stick_y);
-            //lift.lock(gamepad2.a);
-            //lift.unlock(gamepad2.x);
-            lift.drop_Marker(gamepad2.y);
+
+            lift.intake((gamepad2.left_trigger)/2);
+
             lift.intake((-gamepad2.right_trigger)/2);
             lift.intakeDoor(gamepad1.x);
 

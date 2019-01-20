@@ -27,7 +27,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.robotcontroller.external.samples;
+package org.firstinspires.ftc.teamcode.TestingCode;
+
+import android.util.Range;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -48,24 +50,23 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
  * @see <a href="http://modernroboticsinc.com/range-sensor">MR Range Sensor</a>
  */
 @TeleOp(name = "Sensor: MR range sensor", group = "Sensor")
- @Disabled  // comment out or remove this line to enable this opmode
+@Disabled   // comment out or remove this line to enable this opmode
 public class SensorMRRangeSensor extends LinearOpMode {
 
-    ModernRoboticsI2cRangeSensor rangeSensor;
+    RangeSensor rangeSensor = null;
 
     @Override public void runOpMode() {
 
         // get a reference to our compass
-        rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "sensor_range");
+        rangeSensor = new RangeSensor(hardwareMap);
 
         // wait for the start button to be pressed
         waitForStart();
+        rangeSensor.Engage();
 
         while (opModeIsActive()) {
-            telemetry.addData("raw ultrasonic", rangeSensor.rawUltrasonic());
-            telemetry.addData("raw optical", rangeSensor.rawOptical());
-            telemetry.addData("cm optical", "%.2f cm", rangeSensor.cmOptical());
-            telemetry.addData("cm", rangeSensor.getDistance(DistanceUnit.CM));
+            telemetry.addData("Distance", rangeSensor.getDistance(0,100));
+
             telemetry.update();
         }
     }

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Library;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -7,11 +8,13 @@ public abstract class TournamentAutonomous extends LinearOpMode { // sequence ru
     protected abstract void Autonomous_Mode();  // All autonomous mode declaration
 
     // --------------- Declaration to be edited -------------------------
+    ModernRoboticsI2cRangeSensor rangeSensor;
     DriveTrain drive = null;
     ElapsedTime autonomous_elapsetime = new ElapsedTime();
     //Rev_IMU imu = null;
     liftUp lift = null;
     public PixyCam_Analog PixySampler = null;
+
     TensorFlow tensorflow;
     ElapsedTime elapsedTime = new ElapsedTime();
     // ------------------------------------------------------------------
@@ -29,8 +32,9 @@ public abstract class TournamentAutonomous extends LinearOpMode { // sequence ru
         tensorflow= new TensorFlow(hardwareMap);
         //
         // ------------------------------------------------------
-
+        rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "sensor_range");
         lift.setEncoder(true);
+        drive.enableEncoder();
 
         waitForStart();    // wait until the Start button is pressed
         autonomous_elapsetime.reset();
@@ -65,8 +69,8 @@ public abstract class TournamentAutonomous extends LinearOpMode { // sequence ru
     public void landing(double timer_sec) {
         int intial_position = lift.returnEncoder();
 
-        lift.lift(.5);
-        while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive() && (intial_position-lift.returnEncoder()  ) > -700) { // until it passes 5 seconds
+        lift.lift(.9);
+        while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive() && (intial_position-lift.returnEncoder()  ) > -800) { // until it passes 5 seconds
 
             idle();
             telemetry.addData("Encoder: ", intial_position-lift.returnEncoder());
@@ -76,7 +80,7 @@ public abstract class TournamentAutonomous extends LinearOpMode { // sequence ru
         lift.lift(0);
         lift.lift(-.5);
 
-        while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive() && (intial_position-lift.returnEncoder()  ) < 2500) { // until it passes 5 seconds
+        while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive() && (intial_position-lift.returnEncoder()  ) < 1800) { // until it passes 5 seconds
 
             idle();
             telemetry.addData("Encoder: ", intial_position-lift.returnEncoder());
@@ -88,31 +92,35 @@ public abstract class TournamentAutonomous extends LinearOpMode { // sequence ru
 
         move(0,-.5,0,.3);
 
-        lift.lift(.2);
+        //lift.lift(.2);
 
-        while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive() && (intial_position-lift.returnEncoder()  ) > 2300) { // until it passes 5 seconds
-
-            idle();
-            telemetry.addData("Encoder: ", intial_position-lift.returnEncoder());
-
-            telemetry.update();
-        }
-lift.lift(0);
+//        while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive() && (intial_position-lift.returnEncoder()  ) > 2300) { // until it passes 5 seconds
+//
+//            idle();
+//            telemetry.addData("Encoder: ", intial_position-lift.returnEncoder());
+//
+//            telemetry.update();
+//        }
+//lift.lift(0);
 
 
         move(0,0,-.5,.3);
 
         move(-.5, 0, 0, .5);//left
 
-        move(0,0,0,1);//wait
+        //move(0,0,0,1);//wait
 
         move(0,.5,0,.2); //forward
 
         move(.5,0,0,.4);//right
         //I added the moving back the center
-        //move(0,0,-.5,.3);//rotate adjust
+        move(0,0,-.5,.3);//rotate adjust
+
+        move(.5,0,0,.3); //right again
 
         move(0,-.5,0,.2);// back
+
+
         runLift(1,.5);
 
 //        move(0,0,.5,2);// adjust for phone
@@ -345,29 +353,109 @@ lift.lift(0);
     }
         public void Tensorflow_driveup(){
 
-            move(0,.5,0,.7);
+            move(0,.5,0,1.2);//.6 for closer//.9
             move(0, 0, .5, 1.7); //face side
-            move(0,0,0,2);
-            if(tensorflow.runTensorFlow()==7){
+            //move(0,0,0,3.5);//wait
+            telemetry.addData("Cube: ",tensorflow.runTensorFlow() );
+            telemetry.addData("confidence",tensorflow.getConfidence());
+            telemetry.update();
+            if(tensorflow.checkConfidence()){//center
+             telemetry.addData("Cube is seen: ", true);
+             telemetry.update();
+                move(0, 0, -.5, 1.7); //face forward
+                move(0,.5,0,4); //hit maker and drive to depot
+                marker(true);
+                move(0,-.5,0,1.5);
 
-                move(0, 0, -.5, 1.7); //face side
-                move(0,-.5,0,2);
+
+
+
             }
             else{
-                move(0,.5,0,1);
-                if(tensorflow.runTensorFlow()==7){
-                    move(0, 0, .5, 1.7); //face side
-                    move(0,-.5,0,2);
+                move(0,.5,0,1.2);//left
+                //move(0,0,0,3.5);
+                telemetry.addData("Cube: ",tensorflow.runTensorFlow()==7 );
+                telemetry.update();
+                if(tensorflow.checkConfidence()){
+                    telemetry.addData("Cube is seen: ", true);
+                    telemetry.update();
+                    move(0, 0, -.5, 1.85); //face forward
+                    move(0,.5,0,2);// hit marker
+                    move(0,0,0,0); //pause
+                    move(0,0,-.5,.6);// rotate to face depot
+                    move(0,.5,0,2);// drive toward depot
+                    marker(true);
+                    move(0,-.5,0,1.5);
+
+
 
                 }
-                else{
-                    move(0,-.5,0,2);
-                    move(0, 0, -.5, 1.7); //face side
-                    move(0,.5,0,2);
+                else{//right
+                    move(0,-.5,0,2.5);//drive to the right
+                    move(0, 0, -.5, 1.7); //face forward
+                    move(0,.5,0,2);//hit mineral
+                    move(0,0,.5,.6);// rotate to face depot
+                    move(0,.5,0,2);//drive toward depot
+                    marker(true);
+                    move(0,-.5,0,1.5);
                 }
 
             }
     }
+    public void TensorFlowCrater(){
+        move(0,.5,0,1.2);//.6 for closer//.9
+        move(0, 0, .5, 1.7); //face side
+        //move(0,0,0,3.5);//wait
+        telemetry.addData("Cube: ",tensorflow.runTensorFlow() );
+        telemetry.addData("confidence",tensorflow.getConfidence());
+        telemetry.update();
+        if(tensorflow.checkConfidence()){//center
+            telemetry.addData("Cube is seen: ", true);
+            telemetry.update();
+            move(0, 0, .5, 1.7); //face forward
+            move(0,-.5,0,2); //hit maker and drive to depot
+            //marker(true);
+            //move(0,-.5,0,1.5);
+
+
+
+
+        }
+        else{
+            move(0,.5,0,1.2);//left
+            //move(0,0,0,3.5);
+            telemetry.addData("Cube: ",tensorflow.runTensorFlow()==7 );
+            telemetry.update();
+            if(tensorflow.checkConfidence()){
+                telemetry.addData("Cube is seen: ", true);
+                telemetry.update();
+                move(0, 0, .5, 1.85); //face forward
+                move(0,-.5,0,2);// hit marker
+                //move(0,0,0,0); //pause
+                //move(0,0,-.5,.6);// rotate to face depot
+                //move(0,.5,0,2);// drive toward depot
+//                marker(true);
+//                move(0,-.5,0,1.5);
+
+
+
+            }
+            else{//right
+                move(0,-.5,0,2.5);//drive to the right
+                move(0, 0, .5, 1.7); //face forward
+                move(0,-.5,0,2);//hit mineral
+//                move(0,0,.5,.6);// rotate to face depot
+//                move(0,.5,0,2);//drive toward depot
+//                marker(true);
+//                move(0,-.5,0,1.5);
+            }
+
+        }
+    }
+    public void isAligned(){
+
+    }
+
     }
 
 

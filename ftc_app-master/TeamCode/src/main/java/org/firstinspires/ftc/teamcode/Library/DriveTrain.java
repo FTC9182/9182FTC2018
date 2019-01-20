@@ -35,10 +35,7 @@ public class DriveTrain {
 
 
 
-        FrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        FrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        BackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        BackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
 
 
     }
@@ -96,6 +93,19 @@ public class DriveTrain {
          BackLeft.setPower(backrightPower);
          BackRight.setPower(backleftPower);
      }
+     public void enableEncoder(){
+         FrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+         FrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+         BackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+         BackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+     }
+    public void disableEncoder(){
+        FrontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        FrontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        BackLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        BackRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
 
 }
 
