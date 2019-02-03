@@ -72,19 +72,20 @@ public class TournamentTeleop extends LinearOpMode {
             }
 
             newDrive.MecanumDrive((-gamepad1.right_stick_y)*speed, gamepad1.right_stick_x*speed, -r);
-            double up = 1;
+            float flip = 1;
             if(gamepad2.left_bumper){
-                up = -1;
+                flip = -1;
             }
             else{
-                up = 1;
+                flip = 1;
             }
-            lift.lift(-gamepad2.left_stick_y*up);
+            lift.lift(-gamepad2.left_stick_y);
             lift.extender(gamepad2.right_stick_y);
 
-            lift.intake((gamepad2.left_trigger)/2);
+            lift.intake((float)((gamepad2.left_trigger*flip)*.35));
+            lift.intake((float)(gamepad2.right_trigger*(.6)));
 
-            lift.intake((-gamepad2.right_trigger)/2);
+            //lift.intake((-gamepad2.right_trigger));
             lift.intakeDoor(gamepad1.x);
 
             // Show the elapsed game time and wheel power.

@@ -9,16 +9,16 @@ import org.firstinspires.ftc.teamcode.Library.TournamentAutonomous;
 
 
 
-@Autonomous(name = "TensorFlowCraterPark", group = "Competition")
+@Autonomous(name = "TensorFlowCraterMarker", group = "Competition")
 
-public class TensorFlowCrater extends TournamentAutonomous {
+public class TensorFlowCraterMarker extends TournamentAutonomous {
     @Override
 
 
     protected void Autonomous_Mode() { // using Autonomous_Codes
 
         landing(10);
-        TensorFlowCrater();
+        Tensorflowmarker();
 
 
     }

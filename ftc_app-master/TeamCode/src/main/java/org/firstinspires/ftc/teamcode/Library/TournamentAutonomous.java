@@ -8,7 +8,7 @@ public abstract class TournamentAutonomous extends LinearOpMode { // sequence ru
     protected abstract void Autonomous_Mode();  // All autonomous mode declaration
 
     // --------------- Declaration to be edited -------------------------
-    ModernRoboticsI2cRangeSensor rangeSensor;
+    //ModernRoboticsI2cRangeSensor rangeSensor;
     DriveTrain drive = null;
     ElapsedTime autonomous_elapsetime = new ElapsedTime();
     //Rev_IMU imu = null;
@@ -28,11 +28,11 @@ public abstract class TournamentAutonomous extends LinearOpMode { // sequence ru
         drive = new DriveTrain(hardwareMap);
         lift = new liftUp(hardwareMap);
         //imu= new Rev_IMU(hardwareMap);
-        PixySampler = new PixyCam_Analog(hardwareMap);
-        tensorflow= new TensorFlow(hardwareMap);
+        //PixySampler = new PixyCam_Analog(hardwareMap);
+
         //
         // ------------------------------------------------------
-        rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "sensor_range");
+        //rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "sensor_range");
         lift.setEncoder(true);
         drive.enableEncoder();
 
@@ -114,7 +114,7 @@ public abstract class TournamentAutonomous extends LinearOpMode { // sequence ru
 
         move(.5,0,0,.4);//right
         //I added the moving back the center
-        move(0,0,-.5,.3);//rotate adjust
+        //move(0,0,-.5,.3);//rotate adjust
 
         move(.5,0,0,.3); //right again
 
@@ -352,6 +352,7 @@ public abstract class TournamentAutonomous extends LinearOpMode { // sequence ru
         }
     }
         public void Tensorflow_driveup(){
+            tensorflow= new TensorFlow(hardwareMap);
 
             move(0,.5,0,1.2);//.6 for closer//.9
             move(0, 0, .5, 1.7); //face side
@@ -403,6 +404,7 @@ public abstract class TournamentAutonomous extends LinearOpMode { // sequence ru
             }
     }
     public void TensorFlowCrater(){
+        tensorflow= new TensorFlow(hardwareMap);
         move(0,.5,0,1.2);//.6 for closer//.9
         move(0, 0, .5, 1.7); //face side
         //move(0,0,0,3.5);//wait
@@ -412,8 +414,17 @@ public abstract class TournamentAutonomous extends LinearOpMode { // sequence ru
         if(tensorflow.checkConfidence()){//center
             telemetry.addData("Cube is seen: ", true);
             telemetry.update();
-            move(0, 0, .5, 1.7); //face forward
-            move(0,-.5,0,2); //hit maker and drive to depot
+            move(0, 0, -.5, 1.7); //plow towards crater
+            move(0,.5,0,.75); //hit maker and drive to crater
+
+            move(0,-.5,0,.75);//back up
+            move(0,0,1,3.4);//turn around
+
+            move(0,-.5,0, 1);// up and park
+
+
+
+
             //marker(true);
             //move(0,-.5,0,1.5);
 
@@ -429,32 +440,115 @@ public abstract class TournamentAutonomous extends LinearOpMode { // sequence ru
             if(tensorflow.checkConfidence()){
                 telemetry.addData("Cube is seen: ", true);
                 telemetry.update();
-                move(0, 0, .5, 1.85); //face forward
-                move(0,-.5,0,2);// hit marker
-                //move(0,0,0,0); //pause
-                //move(0,0,-.5,.6);// rotate to face depot
-                //move(0,.5,0,2);// drive toward depot
-//                marker(true);
-//                move(0,-.5,0,1.5);
+                move(0, 0, -.5, 1.85); //face forward
+                move(0,.5,0,.75);// hit marker
+
+                move(0,-.5,0,.75);//back up
+                move(0,0,1,3.4);//turn around
+
+                move(0,-.5,0, 1);// up and park
 
 
 
             }
             else{//right
                 move(0,-.5,0,2.5);//drive to the right
-                move(0, 0, .5, 1.7); //face forward
-                move(0,-.5,0,2);//hit mineral
-//                move(0,0,.5,.6);// rotate to face depot
-//                move(0,.5,0,2);//drive toward depot
-//                marker(true);
-//                move(0,-.5,0,1.5);
+                move(0, 0, -.5, 1.7); //face forward
+                move(0,.5,0,.75);//hit mineral
+                move(0,-.5,0,.75);//move back
+
+                move(0,-.5,0,.75);//back up
+                move(0,0,1,3.4);//turn around
+
+                move(0,-.5,0, 1);// up and park
+
+
             }
 
         }
     }
-    public void isAligned(){
+    public void Tensorflowmarker(){
+        tensorflow= new TensorFlow(hardwareMap);
+        move(0,.5,0,1.2);//.6 for closer//.9
+        move(0, 0, .5, 1.7); //face side
+        //move(0,0,0,3.5);//wait
+        telemetry.addData("Cube: ",tensorflow.runTensorFlow() );
+        telemetry.addData("confidence",tensorflow.getConfidence());
+        telemetry.update();
+        if(tensorflow.checkConfidence()){//center
+            telemetry.addData("Cube is seen: ", true);
+            telemetry.update();
+            move(0, 0, -.5, 1.7); //plow towards crater
+            move(0,.5,0,.75); //hit maker and drive to crater
+
+            move(0,-.5,0,.75);//move back
+
+            move(0, 0, .5, 1.7);//face wall
+
+            move(0, 1, 0, 1.75);//move to wall
+
+            move(0,0,.5,.85);// rotate to face depot
+
+            move(0,1,0,2);//zoom
+
+            marker(true);
+
+
+
+
+
+
+
+        }
+        else{
+            move(0,.5,0,1.2);//left
+            //move(0,0,0,3.5);
+            telemetry.addData("Cube: ",tensorflow.runTensorFlow()==7 );
+            telemetry.update();
+            if(tensorflow.checkConfidence()){
+                telemetry.addData("Cube is seen: ", true);
+                telemetry.update();
+                move(0, 0, -.5, 1.85); //face forward
+                move(0,.5,0,.75);// hit marker
+
+                move(0,.5,0,.75);//move back
+
+                move(0, 0, .5, 1.7);//face wall
+
+                move(0, 1, 0, 1.25);// move to wall
+
+                move(0,0,.5,.85);// rotate to face depot
+
+                move(0,1,0,2);//zoom
+
+                marker(true);
+
+
+
+
+            }
+            else{//right
+                move(0,-.5,0,2.5);//drive to the right
+                move(0, 0, -.5, 1.7); //face forward
+                move(0,.5,0,.75);//hit mineral
+                move(0,-.5,0,.75);//move back
+
+                move(0, 0, .5, 1.7);//face wall
+
+                move(0, 1, 0, 2.25);// move to wall
+
+
+                move(0,0,.5,.85);// rotate to face depot
+
+                move(0,1,0,2);//zoom
+
+                marker(true);
+            }
+
+        }
 
     }
+
 
     }
 
