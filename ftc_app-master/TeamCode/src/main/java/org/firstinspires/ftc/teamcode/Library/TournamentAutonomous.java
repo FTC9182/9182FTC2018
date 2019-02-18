@@ -104,7 +104,7 @@ public abstract class TournamentAutonomous extends LinearOpMode { // sequence ru
 //lift.lift(0);
 
 
-        move(0,0,-.5,.3);
+        move(0,0,-.5,.15);
 
         move(-.5, 0, 0, .5);//left
 
@@ -141,47 +141,16 @@ public abstract class TournamentAutonomous extends LinearOpMode { // sequence ru
     }
 
 
-    public void sampling(long timer_sec) {
-        forward(1,.5);
-        forward(1,0);
-        telemetry.addData("Object",PixySampler.isObjectDetected());
-        telemetry.update();
-        if(PixySampler.isObjectDetected()){
-          forward(1,.5);
-            telemetry.addData("Object",PixySampler.isObjectDetected());
-            telemetry.update();
 
-
-        }
-        else{
-            move(-.5,0,0,1);
-            forward(1,0);
-            if(PixySampler.isObjectDetected()){
-                forward(1,.5);
-            }
-
-        }
-    }
 
     public void marker(boolean isLeft) {
 
         lift.drop_Marker(true);
     }
 
-    private void latching() {
-        lift.setEncoder(true);
-        //lift.lock(true);
-    }
 
-    public void moveMotor(double power, double seconds) {
-        lift.lift(power);
-        autonomous_elapsetime.reset();
-        while (autonomous_elapsetime.seconds() < seconds && opModeIsActive()) { // until it passes 5 seconds
-           // lift.unlock(true);
-            sleep(1);
-            idle();
-        }
-    }
+
+
 
     public void  move(double x, double y, double r, double timer_sec) {
         autonomous_elapsetime.reset();
@@ -225,75 +194,10 @@ public abstract class TournamentAutonomous extends LinearOpMode { // sequence ru
 
 
     }
-    public void landingsequence(double timer_sec){
-        lift.lift(-1);
-        while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive()) { // until it passes 5 seconds
-            sleep(1);
-            idle();
-        }
-
-    }
-    public void isPixy(double timer_sec){
 
 
 
-        while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive()) { // until it passes 5 seconds
-            telemetry.addData("object",PixySampler.isObjectDetected());
-            telemetry.update();
-            sleep(1);
-            idle();
-        }
-    }
 
-    public void TensorFlowA(double timer_sec){
-        while (autonomous_elapsetime.seconds() < timer_sec && opModeIsActive()){
-            elapsedTime.reset();
-            telemetry.addData("is phone compatible?:", tensorflow.isPhoneCompatible());
-            if (tensorflow.isPhoneCompatible()) {
-                int location_direction = tensorflow.runTensorFlow();
-                telemetry.addData("Location:", location_direction);
-                if (location_direction < 2) { // only -1, 0, 1 for left, middle and right
-                    telemetry.addData("Estimate angle: ", tensorflow.angle_gold);
-                    if (location_direction < 0) {
-
-                        move(0,0,.5,.3);
-
-                        forward(3,.5);
-
-                        move(0,0,-.5,.3);
-
-
-                        forward(3,.5);
-                        lift.drop_Marker(true);
-
-                        telemetry.addData("Gold location: ", "Left");
-                    } else if( location_direction<1) {
-                        telemetry.addData("Gold location: ", "Center");
-
-                        forward(4,.5);
-                        lift.drop_Marker(true);
-
-                    } else if( location_direction<2) {
-
-                        move(0,0,-.5,.3);
-                        forward(3,.5);
-
-                        move(0,0,.5,.3);
-
-                        forward(3,.5);
-
-                        lift.drop_Marker(true);
-
-                        telemetry.addData("Gold location: ", "Right");
-
-                    }
-
-                }
-            }
-            telemetry.update(); // to actually send to the phone message for debugging purpose
-        }
-        tensorflow.stopTensorFlow();  // stop it at the end of autonomous
-    }
     public void runLift(double timer_sec,double power){
         lift.lift(power);
 
@@ -380,7 +284,7 @@ public abstract class TournamentAutonomous extends LinearOpMode { // sequence ru
                 if(tensorflow.checkConfidence()){
                     telemetry.addData("Cube is seen: ", true);
                     telemetry.update();
-                    move(0, 0, -.5, 1.85); //face forward
+                    move(0, 0, -.5, 1.86); //face forward
                     move(0,.5,0,2);// hit marker
                     move(0,0,0,0); //pause
                     move(0,0,-.5,.6);// rotate to face depot
@@ -415,12 +319,12 @@ public abstract class TournamentAutonomous extends LinearOpMode { // sequence ru
             telemetry.addData("Cube is seen: ", true);
             telemetry.update();
             move(0, 0, -.5, 1.7); //plow towards crater
-            move(0,.5,0,.75); //hit maker and drive to crater
+            move(0,.5,0,.95); //hit maker and drive to crater
 
             move(0,-.5,0,.75);//back up
-            move(0,0,1,3.4);//turn around
+            move(0,0,.5,3.4);//turn around
 
-            move(0,-.5,0, 1);// up and park
+            move(0,-.5,0, 1.7);// up and park
 
 
 
@@ -440,13 +344,13 @@ public abstract class TournamentAutonomous extends LinearOpMode { // sequence ru
             if(tensorflow.checkConfidence()){
                 telemetry.addData("Cube is seen: ", true);
                 telemetry.update();
-                move(0, 0, -.5, 1.85); //face forward
-                move(0,.5,0,.75);// hit marker
+                move(0, 0, -.5, 1.86); //face forward
+                move(0,.5,0,.95);// hit marker
 
                 move(0,-.5,0,.75);//back up
-                move(0,0,1,3.4);//turn around
+                move(0,0,.5,3.4);//turn around
 
-                move(0,-.5,0, 1);// up and park
+                move(0,-.5,0, 1.7);// up and park
 
 
 
@@ -454,13 +358,13 @@ public abstract class TournamentAutonomous extends LinearOpMode { // sequence ru
             else{//right
                 move(0,-.5,0,2.5);//drive to the right
                 move(0, 0, -.5, 1.7); //face forward
-                move(0,.5,0,.75);//hit mineral
+                move(0,.5,0,.95);//hit mineral
                 move(0,-.5,0,.75);//move back
 
                 move(0,-.5,0,.75);//back up
-                move(0,0,1,3.4);//turn around
+                move(0,0,.5,3.4);//turn around
 
-                move(0,-.5,0, 1);// up and park
+                move(0,-.5,0, 1.7);// up and park
 
 
             }
@@ -469,8 +373,8 @@ public abstract class TournamentAutonomous extends LinearOpMode { // sequence ru
     }
     public void Tensorflowmarker(){
         tensorflow= new TensorFlow(hardwareMap);
-        move(0,.5,0,1.2);//.6 for closer//.9
-        move(0, 0, .5, 1.7); //face side
+        move(0,1,0,.6);//.6 for closer//.9
+        move(0, 0, .5, 1.7); //face side ** changed from 1.7 &&
         //move(0,0,0,3.5);//wait
         telemetry.addData("Cube: ",tensorflow.runTensorFlow() );
         telemetry.addData("confidence",tensorflow.getConfidence());
@@ -478,20 +382,27 @@ public abstract class TournamentAutonomous extends LinearOpMode { // sequence ru
         if(tensorflow.checkConfidence()){//center
             telemetry.addData("Cube is seen: ", true);
             telemetry.update();
-            move(0, 0, -.5, 1.7); //plow towards crater
-            move(0,.5,0,.75); //hit maker and drive to crater
+            move(0, 0, -1, .89); //plow towards crater &&
+            move(0,.5,0,.9); //hit maker and drive to crater
 
-            move(0,-.5,0,.75);//move back
+            move(0,-.5,0,.8);//move back
 
-            move(0, 0, .5, 1.7);//face wall
+            move(0, 0, .5, 1.7);//face wall &&
 
-            move(0, 1, 0, 1.75);//move to wall
+            move(0, 1, 0, 1.95);//move to wall**orignal 1.75
 
-            move(0,0,.5,.85);// rotate to face depot
+            move(0,0,.5,.83);// rotate to face depot
 
-            move(0,1,0,2);//zoom
+            move(0,1,0,1.25);//zoom
+
+            move(0,0,0,.5);
+
 
             marker(true);
+
+            move(0,0,0,.5);
+
+            move(0,-1,0,2.6);
 
 
 
@@ -508,49 +419,117 @@ public abstract class TournamentAutonomous extends LinearOpMode { // sequence ru
             if(tensorflow.checkConfidence()){
                 telemetry.addData("Cube is seen: ", true);
                 telemetry.update();
-                move(0, 0, -.5, 1.85); //face forward
-                move(0,.5,0,.75);// hit marker
+                move(0, 0, -1, .93); //face forward// 1.86
+                move(0,.5,0,.9);// hit marker
 
-                move(0,.5,0,.75);//move back
+                move(0,-.5,0,.8);//move back
 
-                move(0, 0, .5, 1.7);//face wall
+                move(0, 0, 1, .86);//face wall//&&
 
-                move(0, 1, 0, 1.25);// move to wall
+                move(0, 1, 0, 1.15);// move to wall
 
-                move(0,0,.5,.85);// rotate to face depot
+                move(0,0,1,.515);// rotate to face depot
 
-                move(0,1,0,2);//zoom
+                move(0,1,0,1.35);//zoom
 
                 marker(true);
+
+                move(0,0,0,.5);
+
+                move(0,-1,0,2.3);
 
 
 
 
             }
             else{//right
-                move(0,-.5,0,2.5);//drive to the right
-                move(0, 0, -.5, 1.7); //face forward
-                move(0,.5,0,.75);//hit mineral
-                move(0,-.5,0,.75);//move back
+                move(0,-1,0,1.35);//drive to the right
+                move(0, 0, -1, .86); //face forward
+                move(0,.5,0,1.0);//hit mineral
+                move(0,-.5,0,.8);//move back
 
-                move(0, 0, .5, 1.7);//face wall
+                move(0, 0, 1, .82);//face wall *small change 1.7
 
-                move(0, 1, 0, 2.25);// move to wall
+                move(0, 1, 0, 3);// move to wall
 
 
-                move(0,0,.5,.85);// rotate to face depot
+                move(0,0,1,.43);// rotate to face depot&&
 
-                move(0,1,0,2);//zoom
+                move(0,1,0,1.25);//zoom
 
                 marker(true);
+
+                move(0,0,0,.5);
+
+                move(0,-1,0,2.6);
             }
 
         }
 
     }
-
-
+    public void Turn(){
+        move(0,0,1,.86);
     }
+
+    public void DepotSidePark(){
+        tensorflow= new TensorFlow(hardwareMap);
+
+        move(0,1,0,.6);//.6 for closer//.9
+        move(0, 0, .5, 1.7); //face side ** changed from 1.7 &&
+        //move(0,0,0,3.5);//wait
+        telemetry.addData("Cube: ",tensorflow.runTensorFlow() );
+        telemetry.addData("confidence",tensorflow.getConfidence());
+        telemetry.update();
+        if(tensorflow.checkConfidence()){//center
+            telemetry.addData("Cube is seen: ", true);
+            telemetry.update();
+            move(0, 0, -1, .89); //face mineral
+            move(0,.5,0,4); //hit maker and drive to depot
+            marker(true);
+            move(0,0,-1,.43);
+            move(0,1,0,.5);
+            move(0,0,1,.86);
+            move(0,1,0,2.4);
+
+
+
+
+        }
+        else{
+            move(0,1,0,.6);//left
+            //move(0,0,0,3.5);
+            telemetry.addData("Cube: ",tensorflow.runTensorFlow()==7 );
+            telemetry.update();
+            if(tensorflow.checkConfidence()){
+                telemetry.addData("Cube is seen: ", true);
+                telemetry.update();
+                move(0, 0, -1, .89); //plow towards crater &&
+                move(0,.5,0,2);// hit marker
+                move(0,0,-.5,.6);// rotate to face depot
+                move(0,.5,0,2);// drive toward depot
+                marker(true);
+                move(0,0,-1,.26);
+                move(0,-1,0,2.4);
+
+
+
+            }
+            else{//right
+                move(0,-.5,0,2.5);//drive to the right
+                move(0, 0, -1, .89); //plow towards crater &&
+                move(0,.5,0,2);//hit mineral
+                move(0,0,.5,.6);// rotate to face depot
+                move(0,.5,0,2);//drive toward depot
+                marker(true);
+                move(0,0,1,.26);
+                move(0,-1,0,2.4);
+
+            }
+
+        }
+    }
+    }
+
 
 
 
